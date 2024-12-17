@@ -1,0 +1,115 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #1c0c28;
+}
+
+.logo {
+  font-size: 36px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.logo span {
+  color: #ff007a;
+}
+
+.login-box {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: 24px;
+  color: #1c0c28;
+  margin-bottom: 10px;
+}
+
+p {
+  color: #5a5a5a;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+
+.phone-input .flag {
+  width: 24px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.phone-input .code {
+  font-size: 16px;
+  margin-right: 10px;
+  color: #000;
+}
+
+.phone-input input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 100%;
+}
+
+button {
+  background-color: #ff007a;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #e6006a;
+}
+
+#error-message {
+  display: none;
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+#error-message a {
+  color: #ff007a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#error-message a:hover {
+  text-decoration: underline;
+}
+
+#register-link {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+#register-link a {
+  color: #ff007a;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#register-link a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,19 @@
+body {
+  background-color: #f9f9f9; /* Fondo claro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+  color: #1a001f;
+}
+
+.message h1 {
+  font-size: 24px;
+  font-weight: bold;
+}

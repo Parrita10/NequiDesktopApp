@@ -1,0 +1,65 @@
+/* Fondo general */
+body {
+  background-color: #1a001f; /* Fondo púrpura oscuro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+/* Contenedor principal */
+.container {
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Logo */
+.logo {
+  width: 150px; /* Tamaño ajustado del logo */
+  height: auto;
+  margin-bottom: 50px; /* Más espacio debajo del logo */
+}
+
+/* Contenedor de los botones */
+.button-container {
+  display: flex;
+  flex-direction: column; /* Apila los botones verticalmente */
+  gap: 20px; /* Más espacio entre los botones */
+  align-items: center;
+}
+
+/* Botones */
+button {
+  width: 100%; /* Botones ocupan el ancho del contenedor */
+  padding: 20px; /* Botones más altos */
+  font-size: 18px; /* Texto más grande */
+  font-weight: bold;
+  border: 2px solid white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button.primary {
+  background-color: #ff007f; /* Color rosado */
+  color: white;
+  border: none; /* Sin borde */
+}
+
+button.primary:hover {
+  background-color: #e60072; /* Más oscuro al pasar el mouse */
+}
+
+button.secondary {
+  background-color: transparent; /* Fondo transparente */
+  color: white;
+}
+
+button.secondary:hover {
+  background-color: white;
+  color: #1a001f; /* Texto púrpura oscuro */
+}
