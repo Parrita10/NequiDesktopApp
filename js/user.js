@@ -1,23 +1,26 @@
 class User {
   constructor(
-    telefone_number,
     userName,
-    surname,
+    middleName,
+    surName,
+    surName2,
     nickName,
-    country,
+    residencia,
     email,
     ID,
+    phoneNumber,
     password
   ) {
-    this.telefone_number = telefone_number;
     this.userName = userName;
-    this.surname = surname;
+    this.middleName = middleName;
+    this.surName = surName;
+    this.surName2 = surName2;
     this.nickName = nickName;
-    this.country = country;
+    this.residencia = residencia;
     this.email = email;
     this.ID = ID;
+    this.phoneNumber = phoneNumber;
     this.password = password;
   }
 }
-
-//METODOS PARA CREAR USUARIO, VERIFICAR USUARIO, REDIRIGIR INICIO DE SESIÓN
+export default User;

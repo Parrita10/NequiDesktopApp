@@ -23,7 +23,7 @@ body {
     font-size: 32px;
     color: #1c0c28;
     margin-left: 2rem;
-    margin-top: 2rem;
+    margin-top: 0.5rem;
   }
   
   p {
@@ -40,11 +40,12 @@ body {
     padding: 20px;
     border-radius: 15px;
     width: 55vh;
-    height: 71vh;
+    height: 73vh;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     position: absolute;
     top: 9rem;
     margin-left: 32.5rem;
+
   }
   
   /* Inputs de código */

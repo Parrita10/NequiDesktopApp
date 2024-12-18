@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../css/code_number.css" />
-    <title>Document</title>
+    <title>Ingresa tu código</title>
   </head>
   <body>
     <header>
@@ -45,13 +45,104 @@
           <button class="key">0</button>
           <button class="key delete">&#8592;</button>
         </div>
-        <button
-          id="verify-code">Aceptar
-        </button>
+        <button id="verify-code">Aceptar</button>
       </div>
     </section>
 
-    <!-- Enlace al archivo auth.js -->
-    <script src="../js/auth.js"></script>
+    <script type="module" src="../js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      emailjs.init("t4hJoDQxsLrpKyUCQ");
+
+      let verificationCode = null;
+
+      function generateVerificationCode() {
+        return Math.floor(1000 + Math.random() * 9000);
+      }
+
+      const sendEmailButton = document.getElementById("send-email");
+      const emailInputSection = document.getElementById("email-input");
+      const submitEmailButton = document.getElementById("submit-email");
+      const emailInput = document.getElementById("email");
+      const codeInputs = document.querySelectorAll(".code-input input");
+
+      sendEmailButton.addEventListener("click", () => {
+        emailInputSection.classList.remove("hidden");
+      });
+
+      // Enviar el código al correo del usuario
+      submitEmailButton.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        if (verificationCode === null) {
+          verificationCode = generateVerificationCode();
+        }
+
+        const userEmail = emailInput.value;
+
+        if (!userEmail) {
+          alert("Por favor ingresa un correo electrónico válido.");
+          return;
+        }
+
+        // CONFIGURACIÓN DE LA API
+        const serviceID = "default_service";
+        const templateID = "template_36tkbkb";
+
+        const templateParams = {
+          //Paramentros :D
+          verification_code: verificationCode,
+          email_adress: userEmail,
+        };
+
+        emailjs.send(serviceID, templateID, templateParams).then(
+          () => {
+            alert("Correo enviado con éxito!");
+            emailInputSection.classList.add("hidden");
+            emailInput.value = ""; // Limpiar el campo de correo
+          },
+          (err) => {
+            alert("Hubo un error al enviar el correo. Inténtalo de nuevo.");
+            console.error("Error: ", err);
+          }
+        );
+      });
+
+      // Lógica para manejar la entrada de código
+      const numericKeys = document.querySelectorAll(".numeric-keypad .key");
+      let currentInputIndex = 0;
+
+      numericKeys.forEach((key) => {
+        key.addEventListener("click", () => {
+          const value = key.textContent;
+
+          if (
+            !key.classList.contains("delete") &&
+            currentInputIndex < codeInputs.length
+          ) {
+            codeInputs[currentInputIndex].value = value;
+            currentInputIndex++;
+          }
+
+          if (key.classList.contains("delete") && currentInputIndex > 0) {
+            currentInputIndex--;
+            codeInputs[currentInputIndex].value = "";
+          }
+        });
+      });
+
+      document.getElementById("verify-code").addEventListener("click", () => {
+        const enteredCode = Array.from(codeInputs)
+          .map((input) => input.value.trim())
+          .join("");
+
+        if (enteredCode === String(verificationCode)) {
+          alert("Código correcto. Redirigiendo...");
+          window.location.href = "./account_options.html";
+        } else {
+          alert("El código ingresado es incorrecto.");
+        }
+      });
+    </script>
   </body>
 </html>
