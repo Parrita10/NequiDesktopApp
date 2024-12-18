@@ -84,9 +84,16 @@ button:hover {
   appearance: none;
 }
 
-/*Propiedades del +57*/
 .phone-input select {
   padding-right: 10px;
   margin-right: 10px;
   cursor: pointer;
+}
+
+/* Estilo del mensaje de error */
+#error-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
 }
