@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Registro - Nequi</title>
     <link rel="stylesheet" href="../css/register.css" />
   </head>
   <body>
@@ -11,7 +11,7 @@
       <img src="../images/logo.png" alt="Banco Logo" class="logo" />
     </header>
 
-    <!--2.1 Numero Teléfonico -->
+    <!-- Número Teléfonico -->
     <section id="phone-view" class="view active">
       <div class="card">
         <h2>Escribe tu cel</h2>
@@ -29,18 +29,14 @@
             maxlength="10"
           />
         </div>
+        <div id="error-message" style="color: red; margin-top: 10px;"></div>
         <p class="info">
           Al escribir tu número de cel, autorizas a la app para enviarte
           mensajes de texto con información del servicio, cuando sea necesario.
         </p>
-        <button class="send-code"
-        onclick="window.location.href='./code_number.html'" id="send-code">Aceptar</button>
-
-        
-
-
+        <button class="send-code" id="send-code">Aceptar</button>
       </div>
     </section>
-    <script type="module" src="app.js"></script>
+    <script src="../js/auth.js"></script>
   </body>
 </html>
