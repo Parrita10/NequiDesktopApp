@@ -1,4 +1,8 @@
 // Datos quemados para pruebas
+
+
+//AQUI ES DONDE DEBO PONER LA LOGICA IMPLEMENTADA EN EL USER PARA CREAR USUARIOS, AQUI SE REFLEJAN LOS USUARIOS 
+//GUARDADOS AHÍ
 const registeredUsers = [
   { phone: "3001234567", password: "1234" },
   { phone: "3109876543", password: "5678" }

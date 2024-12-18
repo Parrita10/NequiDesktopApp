@@ -8,35 +8,43 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
+  overflow: hidden;
 }
 
-/* Contenedor principal */
+/* Resto de la App */
 .container {
   text-align: center;
   width: 100%;
-  max-width: 300px;
+  max-width: 400px;
+  position: inherit;
 }
 
-/* Logo */
 .logo {
-  width: 150px; /* Tamaño ajustado del logo */
+  width: 500px;
   height: auto;
-  margin-bottom: 50px; /* Más espacio debajo del logo */
+  margin-bottom: 40px;
+  position: absolute;
+  left: 32rem;
+  top: 13rem;
 }
 
 /* Contenedor de los botones */
 .button-container {
   display: flex;
-  flex-direction: column; /* Apila los botones verticalmente */
-  gap: 20px; /* Más espacio entre los botones */
+  flex-direction: column;
+  gap: 20px;
   align-items: center;
+  position: absolute;
+  top: 28rem;
+  left: 37rem;
+  width: 25%;
 }
 
 /* Botones */
 button {
-  width: 100%; /* Botones ocupan el ancho del contenedor */
-  padding: 20px; /* Botones más altos */
-  font-size: 18px; /* Texto más grande */
+  width: 100%;
+  padding: 16px; /*Para que vean altos*/
+  font-size: 18px;
   font-weight: bold;
   border: 2px solid white;
   border-radius: 8px;
@@ -45,21 +53,22 @@ button {
 }
 
 button.primary {
-  background-color: #ff007f; /* Color rosado */
+  background-color: #ff007f;
   color: white;
-  border: none; /* Sin borde */
+  border: none;
+  margin-bottom: 11px;
 }
 
 button.primary:hover {
-  background-color: #e60072; /* Más oscuro al pasar el mouse */
+  background-color: #e2599d;
 }
 
 button.secondary {
-  background-color: transparent; /* Fondo transparente */
+  background-color: transparent;
   color: white;
 }
 
 button.secondary:hover {
   background-color: white;
-  color: #1a001f; /* Texto púrpura oscuro */
+  color: #1a001f;
 }
