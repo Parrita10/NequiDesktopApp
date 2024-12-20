@@ -2,6 +2,7 @@ import Account from "./account.js";
 import User from "./user.js";
 import Login from "./login.js";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const account = new Account(); // Instancia de Account
 
@@ -10,6 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendCodeButton = document.getElementById("send-code");
     const phoneNumberInput = document.getElementById("phone-number");
     const errorMessage = document.getElementById("error-message");
+    const user = account.getAllUsers();
+    console.log(user);
+
+
+
+//GARANTIZAR QUE NO HAYAN CLAVES INDEFINIDAS :D
+account.cleanInvalidKeys();
+console.log(user);
 
     sendCodeButton.addEventListener("click", () => {
       const phoneValue = phoneNumberInput.value.trim();
@@ -38,10 +47,180 @@ document.addEventListener("DOMContentLoaded", () => {
       // Crear usuario y guardarlo
       const newUser = new User(phoneValue);
       account.saveUser(newUser);
+      
 
       localStorage.setItem("phoneNumber", phoneValue); // Guardar número en LocalStorage
-      alert("Número guardado exitosamente.");
+      errorMessage.textContent = "Número guardado exitosamente.";
       window.location.href = "./code_number.html";
+    });
+  }
+
+  // Lógica para la vista de configuración
+  if (window.location.pathname.includes("configuration.html")) {
+    const phoneNumber = localStorage.getItem("currentPhoneNumber");
+
+    if (!phoneNumber) {
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "No se encontró un usuario activo. Por favor, inicia sesión.";
+      document.body.appendChild(errorMessage);
+      return;
+    }
+
+    const user = account.getUser(phoneNumber);
+
+    if (!user) {
+      const errorMessage = document.createElement("p");
+      errorMessage.textContent = "Usuario no encontrado. Por favor, reinicia el registro.";
+      document.body.appendChild(errorMessage);
+      return;
+    }
+
+    // Referencias a los campos del formulario
+    const firstNameInput = document.getElementById("first-name");
+    const secondNameInput = document.getElementById("middle-name");
+    const firstSurnameInput = document.getElementById("last-name");
+    const secondSurnameInput = document.getElementById("second-last-name");
+    const nicknameInput = document.getElementById("nickname");
+    const emailInputs = document.querySelectorAll("input[type='email']");
+    const saveMessage = document.createElement("p");
+    saveMessage.className = "save-message";
+    document.querySelector("footer").appendChild(saveMessage);
+
+    // Cargar los datos del usuario
+    firstNameInput.value = user.userName || "";
+    secondNameInput.value = user.middleName || "";
+    firstSurnameInput.value = user.surName || "";
+    secondSurnameInput.value = user.surName2 || "";
+    nicknameInput.value = user.nickName || "";
+    emailInputs[0].value = user.email || "";
+    emailInputs[1].value = user.email || "";
+
+    // Guardar cambios al usuario
+    const saveButton = document.getElementById("save-btn");
+    saveButton.addEventListener("click", () => {
+      const updatedData = {
+        userName: firstNameInput.value.trim(),
+        middleName: secondNameInput.value.trim(),
+        surName: firstSurnameInput.value.trim(),
+        surName2: secondSurnameInput.value.trim(),
+        nickName: nicknameInput.value.trim(),
+        email: emailInputs[0].value.trim(),
+      };
+
+      // Verificar si hay cambios
+      const isDataChanged =
+        updatedData.nickName !== user.nickName ||
+        updatedData.email !== user.email;
+
+      if (isDataChanged) {
+        account.updateUser(phoneNumber, updatedData);
+        saveMessage.textContent = "Cambios guardados exitosamente.";
+        saveMessage.style.display = "block";
+        saveMessage.classList.add("success");
+      } else {
+        saveMessage.textContent = "No hay cambios para guardar.";
+        saveMessage.style.display = "block";
+        saveMessage.classList.add("info");
+      }
+
+      setTimeout(() => {
+        saveMessage.style.display = "none";
+      }, 3000);
+    });
+
+    // ---- Lógica para el botón Bloquear Nequi ----
+    const blockButton = document.querySelector(".block-btn");
+
+    blockButton.addEventListener("click", () => {
+      const modalContainer = document.createElement("div");
+      modalContainer.classList.add("modal-container");
+
+      const modalContent = document.createElement("div");
+      modalContent.classList.add("modal-content");
+
+      const modalMessage = document.createElement("p");
+      modalMessage.textContent =
+        "¿Estás seguro de que deseas bloquear tu cuenta? Si la bloqueas, deberás crear una nueva cuenta.";
+
+      const confirmButton = document.createElement("button");
+      confirmButton.textContent = "Sí, bloquear cuenta";
+      confirmButton.classList.add("confirm-btn");
+
+      const cancelButton = document.createElement("button");
+      cancelButton.textContent = "No, cancelar";
+      cancelButton.classList.add("cancel-btn");
+
+      modalContent.appendChild(modalMessage);
+      modalContent.appendChild(confirmButton);
+      modalContent.appendChild(cancelButton);
+      modalContainer.appendChild(modalContent);
+      document.body.appendChild(modalContainer);
+
+      confirmButton.addEventListener("click", () => {
+        account.deleteUser(phoneNumber);
+        localStorage.removeItem("currentPhoneNumber");
+        saveMessage.textContent = "Tu cuenta ha sido bloqueada exitosamente.";
+        saveMessage.style.display = "block";
+        document.body.removeChild(modalContainer);
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 2000);
+      });
+
+      cancelButton.addEventListener("click", () => {
+        document.body.removeChild(modalContainer);
+      });
+    });
+
+    // ---- NUEVA LÓGICA PARA CAMBIO DE CONTRASEÑA ----
+    const currentPasswordInput = document.getElementById("current-password");
+    const newPasswordInput = document.getElementById("new-password");
+    const changePasswordButton = document.getElementById("change-password-btn");
+    const passwordMessage = document.getElementById("password-message");
+
+    // Validar solo números en los campos de contraseña
+    const restrictToNumbers = (input) => {
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9]/g, "");
+      });
+    };
+
+    restrictToNumbers(currentPasswordInput);
+    restrictToNumbers(newPasswordInput);
+
+    changePasswordButton.addEventListener("click", () => {
+      const currentPassword = currentPasswordInput.value.trim();
+      const newPassword = newPasswordInput.value.trim();
+
+      // Limpiar mensaje anterior
+      passwordMessage.textContent = "";
+      passwordMessage.style.display = "none";
+
+      if (currentPassword !== user.password) {
+        passwordMessage.textContent = "Clave actual incorrecta.";
+        passwordMessage.style.color = "#ff0000"; // Color rojo para error
+        passwordMessage.style.display = "block";
+        return;
+      }
+
+      if (newPassword.length !== 4 || isNaN(newPassword)) {
+        passwordMessage.textContent = "La nueva clave debe ser un número de 4 dígitos.";
+        passwordMessage.style.color = "#ff0000";
+        passwordMessage.style.display = "block";
+        return;
+      }
+
+      // Actualizar la contraseña
+      user.password = newPassword;
+      account.updateUser(phoneNumber, user);
+
+      passwordMessage.textContent = "Clave cambiada con éxito.";
+      passwordMessage.style.color = "#2d7a2d"; // Color verde para éxito
+      passwordMessage.style.display = "block";
+
+      // Limpiar campos
+      currentPasswordInput.value = "";
+      newPasswordInput.value = "";
     });
   }
 
@@ -63,28 +242,36 @@ document.addEventListener("DOMContentLoaded", () => {
       ".side-item:nth-child(5) .side-btn"
     );
 
-    // Redirección al hacer clic en "Configuración"
-    sendButton.addEventListener("click", () => {
-      window.location.href = "send.html";
-    });
-    // Redirección al hacer clic en "Configuración"
-    depositButton.addEventListener("click", () => {
-      window.location.href = "deposit.html";
-    });
+    // Verifica si los botones existen antes de asignar eventos
+    if (sendButton) {
+      sendButton.addEventListener("click", () => {
+        window.location.href = "send.html";
+      });
+    }
 
-    // Redirección al hacer clic en "Transacciones"
-    transactionButton.addEventListener("click", () => {
-      window.location.href = "transactions.html";
-    });
-    // Redirección al hacer clic en "Transacciones"
-    withdrawButton.addEventListener("click", () => {
-      window.location.href = "withdraw.html";
-    });
+    if (depositButton) {
+      depositButton.addEventListener("click", () => {
+        window.location.href = "deposit.html";
+      });
+    }
 
-    // Redirección al hacer clic en "Configuración"
-    configurationButton.addEventListener("click", () => {
-      window.location.href = "configuration.html";
-    });
+    if (transactionButton) {
+      transactionButton.addEventListener("click", () => {
+        window.location.href = "transactions.html";
+      });
+    }
+
+    if (withdrawButton) {
+      withdrawButton.addEventListener("click", () => {
+        window.location.href = "withdraw.html";
+      });
+    }
+
+    if (configurationButton) {
+      configurationButton.addEventListener("click", () => {
+        window.location.href = "configuration.html";
+      });
+    }
   }
 
   // Lógica para la vista de código
@@ -105,8 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("No se encontró el usuario.");
     }
   }
-
-  //LÓGICA PARA EL ENVÍO DEL CORREO MANEJADA ESTÁ EN EL HTML.
 
   // Lógica para la vista de Personal info
   if (window.location.pathname.includes("personal_info.html")) {
