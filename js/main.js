@@ -47,18 +47,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Lógica para la vista de Home
   if (window.location.pathname.includes("home.html")) {
-    const sendButton = document.querySelector(".side-item:nth-child(1) .side-btn");
-    const depositButton = document.querySelector(".side-item:nth-child(2) .side-btn");
-    const transactionButton = document.querySelector(".side-item:nth-child(3) .side-btn");
-    const withdrawButton = document.querySelector(".side-item:nth-child(4) .side-btn");
-    const configurationButton = document.querySelector(".side-item:nth-child(5) .side-btn");
+    const sendButton = document.querySelector(
+      ".side-item:nth-child(1) .side-btn"
+    );
+    const depositButton = document.querySelector(
+      ".side-item:nth-child(2) .side-btn"
+    );
+    const transactionButton = document.querySelector(
+      ".side-item:nth-child(3) .side-btn"
+    );
+    const withdrawButton = document.querySelector(
+      ".side-item:nth-child(4) .side-btn"
+    );
+    const configurationButton = document.querySelector(
+      ".side-item:nth-child(5) .side-btn"
+    );
 
-     // Redirección al hacer clic en "Configuración"
-     sendButton.addEventListener("click", () => {
+    // Redirección al hacer clic en "Configuración"
+    sendButton.addEventListener("click", () => {
       window.location.href = "send.html";
     });
-     // Redirección al hacer clic en "Configuración"
-     depositButton.addEventListener("click", () => {
+    // Redirección al hacer clic en "Configuración"
+    depositButton.addEventListener("click", () => {
       window.location.href = "deposit.html";
     });
 
@@ -70,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     withdrawButton.addEventListener("click", () => {
       window.location.href = "withdraw.html";
     });
-
 
     // Redirección al hacer clic en "Configuración"
     configurationButton.addEventListener("click", () => {
@@ -101,14 +110,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Lógica para la vista de Personal info
   if (window.location.pathname.includes("personal_info.html")) {
-    const primerNombre = document.querySelector('input[placeholder="Primer nombre"]');
-    const segundoNombre = document.querySelector('input[placeholder="Segundo nombre (opcional)"]');
-    const primerApellido = document.querySelector('input[placeholder="Primer apellido"]');
-    const segundoApellido = document.querySelector('input[placeholder="Segundo apellido (Opcional)"]');
+    const primerNombre = document.querySelector(
+      'input[placeholder="Primer nombre"]'
+    );
+    const segundoNombre = document.querySelector(
+      'input[placeholder="Segundo nombre (opcional)"]'
+    );
+    const primerApellido = document.querySelector(
+      'input[placeholder="Primer apellido"]'
+    );
+    const segundoApellido = document.querySelector(
+      'input[placeholder="Segundo apellido (Opcional)"]'
+    );
     const nickname = document.querySelector("#nombre-usuario");
     const residencia = document.querySelector("#residencia");
-    const correo1 = document.querySelector('input[type="email"]:nth-of-type(1)');
-    const correo2 = document.querySelector('input[type="email"]:nth-of-type(2)');
+    const correo1 = document.querySelector(
+      'input[type="email"]:nth-of-type(1)'
+    );
+    const correo2 = document.querySelector(
+      'input[type="email"]:nth-of-type(2)'
+    );
     const numeroIdentificacion = document.querySelector('input[type="text"]');
 
     const guardarButton = document.querySelector(".button");
@@ -250,7 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (window.location.pathname.includes("password.html")) {
-    const savedPhoneNumber = localStorage.getItem("currentPhoneNumber");
     const passwordInputs = document.querySelectorAll(".pin");
     const numpadButtons = document.querySelectorAll(".numpad button");
     const errorMessage = document.getElementById("error-message");
