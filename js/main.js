@@ -160,17 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       account.saveUser(newUser);
-
-      localStorage.setItem("primerNombre", primerNombre.value);
-      localStorage.setItem("segundoNombre", segundoNombre.value);
-      localStorage.setItem("primerApellido", primerApellido.value);
-      localStorage.setItem("segundoApellido", segundoApellido.value);
-      localStorage.setItem("nickname", nickname.value);
-      localStorage.setItem("residencia", residencia.value);
-      localStorage.setItem("correo1", correo1.value);
-      localStorage.setItem("correo2", correo2.value);
-      localStorage.setItem("numeroIdentificacion", numeroIdentificacion.value);
-
       alert("Datos guardados exitosamente.");
       window.location.href = "./creat_password.html";
     });
@@ -271,6 +260,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (window.location.pathname.includes("password.html")) {
+    const user = account.getAllUsers();
+    console.log(user);
+
+    //--FORMA PARA ELIMINAR UN USUARIO DEL PROGRAMA--
+    // alert("Apunto de eliminar un usuario");
+    // const phoneNumber = localStorage.getItem("currentPhoneNumber");
+    // console.log(`Numero a eliminar ${phoneNumber}`);
+    // account.deleteUser(phoneNumber);
+    // const lastUpdate = account.getAllUsers();
+    // console.log(lastUpdate);
+
+    //GARANTIZAR QUE NO HAYAN CLAVES INDEFINIDAS :D
+    account.cleanInvalidKeys();
+
+    const savedPhoneNumber = localStorage.getItem("currentPhoneNumber");
     const passwordInputs = document.querySelectorAll(".pin");
     const numpadButtons = document.querySelectorAll(".numpad button");
     const errorMessage = document.getElementById("error-message");

@@ -13,7 +13,7 @@ class Account {
 
   getAllUsers() {
     const users = localStorage.getItem(this.usersKey);
-    return users ? JSON.parse(users) : {}; 
+    return users ? JSON.parse(users) : {};
   }
 
   getUser(phoneNumber) {
@@ -35,6 +35,39 @@ class Account {
       return true;
     }
     return false;
+  }
+
+  //Metodo para eliminar un usuario através de su número de teléfono
+  deleteUser(phoneNumber) {
+    const users = this.getAllUsers();
+
+    if (users[phoneNumber]) {
+      delete users[phoneNumber];
+      console.log(
+        `Usuario con el número ${phoneNumber} eliminado exitosamente.`
+      );
+    } else {
+      console.error(`El usuario con el número ${phoneNumber} no existe.`);
+    }
+    localStorage.setItem(this.usersKey, JSON.stringify(users));
+  }
+
+  // Método para limpiar entradas inválidas
+  cleanInvalidKeys() {
+    const users = this.getAllUsers();
+
+    console.log("Estado inicial de usuarios:", users);
+
+    for (const key in users) {
+      if (users[key] === undefined || users[key] === "undefined") {
+        console.log(`Eliminando clave con valor inválido: ${key}`);
+        delete users[key];
+      }
+    }
+
+    console.log("Estado final de usuarios:", users);
+
+    localStorage.setItem(this.usersKey, JSON.stringify(users));
   }
 }
 
