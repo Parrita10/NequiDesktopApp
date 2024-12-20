@@ -71,84 +71,90 @@ main {
 .balance-card {
   background-color: #1f1b2d;
   color: white;
-  border-radius: 12px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 40px;
   text-align: center;
-  width: 250px;
-  height: 200px;
+  width: 300px;
+  height: 250px;
 }
 
 .balance-card .label {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .balance-card .amount {
-  font-size: 32px;
-  margin: 10px 0;
+  font-size: 40px;
+  margin: 15px 0;
 }
 
 .balance-card .total {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* ---- Chat Box ---- */
 .nequi-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 20px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-  padding: 20px;
+  padding: 30px;
   text-align: center;
-  width: 350px;
+  width: 500px;
+  height: 500px;
   border: 2px solid #000;
 }
 
 .chat-content {
   display: flex;
+  height: 100%;
   flex-direction: column;
   align-items: center;
 }
 
 .logoIA {
-  width: 60px;
-  margin-bottom: 15px;
+  width: 80px;
+  margin-bottom: 20px;
 }
 
 /* Relleno negro dentro del chat */
 .chat-inner-box {
   border: 2px solid #000; /* Borde negro */
   border-radius: 10px; /* Bordes redondeados */
-  padding: 5px; /* Espacio entre el borde y el contenido */
+  padding: 10px; /* Espacio entre el borde y el contenido */
   width: 100%; /* Abarca todo el ancho */
   box-sizing: border-box; /* El borde y padding cuentan en el tamaño total */
 }
 
 .chat-box {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
+  height: 320px;
   background: white; /* Fondo blanco dentro del cuadro negro */
   border-radius: 10px; /* Bordes redondeados para armonizar */
-  padding: 5px; /* Espacio interior */
+  padding: 10px; /* Espacio interior */
 }
 
 .chat-input {
   flex: 1;
-  padding: 10px;
+  font-size: 15px;
+  padding: 20px;
   border: 1px solid #ddd;
   border-radius: 20px;
   outline: none;
+  resize: none;
+  overflow: hidden;
 }
 
 .send-btn {
   background-color: #ff007a;
   color: white;
   border: none;
-  width: 40px;
-  height: 40px;
-  margin-left: 10px;
+  width: 50px;
+  height: 50px;
+  margin-left: 15px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 /* ---- Sidebar ---- */
@@ -156,31 +162,38 @@ main {
   grid-area: sidebar;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: flex-start;
+  gap: 15px;
   padding-left: 20px;
 }
 
 .side-item {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content:end;
+  
+  width: 250px; /* Ajuste del ancho */
+  margin-bottom: 20px;
 }
 
 .side-item h3 {
   margin-right: 10px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  flex-shrink: 0;
 }
 
 .side-btn {
   background-color: #ff007a;
   color: white;
   border: none;
-  padding: 15px;
-  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  padding: 20px;
+  border-radius: 10%;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

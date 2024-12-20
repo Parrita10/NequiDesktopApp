@@ -41,10 +41,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
       localStorage.setItem("phoneNumber", phoneValue); // Guardar número en LocalStorage
       alert("Número guardado exitosamente.");
-      //localStorage.clear();
-      //alert("Todo eliminado")
-      // Redirección
       window.location.href = "./code_number.html";
+    });
+  }
+
+  // Lógica para la vista de Home
+  if (window.location.pathname.includes("home.html")) {
+    const sendButton = document.querySelector(
+      ".side-item:nth-child(1) .side-btn"
+    );
+    const depositButton = document.querySelector(
+      ".side-item:nth-child(2) .side-btn"
+    );
+    const transactionButton = document.querySelector(
+      ".side-item:nth-child(3) .side-btn"
+    );
+    const withdrawButton = document.querySelector(
+      ".side-item:nth-child(4) .side-btn"
+    );
+    const configurationButton = document.querySelector(
+      ".side-item:nth-child(5) .side-btn"
+    );
+
+    // Redirección al hacer clic en "Configuración"
+    sendButton.addEventListener("click", () => {
+      window.location.href = "send.html";
+    });
+    // Redirección al hacer clic en "Configuración"
+    depositButton.addEventListener("click", () => {
+      window.location.href = "deposit.html";
+    });
+
+    // Redirección al hacer clic en "Transacciones"
+    transactionButton.addEventListener("click", () => {
+      window.location.href = "transactions.html";
+    });
+    // Redirección al hacer clic en "Transacciones"
+    withdrawButton.addEventListener("click", () => {
+      window.location.href = "withdraw.html";
+    });
+
+    // Redirección al hacer clic en "Configuración"
+    configurationButton.addEventListener("click", () => {
+      window.location.href = "configuration.html";
     });
   }
 
@@ -55,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const acceptButton = document.getElementById("verify-code");
     const errorMessage = document.getElementById("error-message");
 
-    //VALIDO QUE SI RECIBA EL NUMERO GURDADO :D
     const phoneNumber = localStorage.getItem("phoneNumber");
     const account = new Account();
 
@@ -68,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //LÓGICA PARA EL ENVIO DEL CORREO MANEJADA ESTÁ EN EL HTML.
+  //LÓGICA PARA EL ENVÍO DEL CORREO MANEJADA ESTÁ EN EL HTML.
 
   // Lógica para la vista de Personal info
   if (window.location.pathname.includes("personal_info.html")) {
@@ -96,9 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const guardarButton = document.querySelector(".button");
 
-    // Evento al hacer clic en el botón "Guardar"
     guardarButton.addEventListener("click", () => {
-      // Validar campos obligatorios
       if (
         !primerNombre.value ||
         !primerApellido.value ||
@@ -109,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Crear el nuevo objeto User con los datos
-      const phoneNumber = localStorage.getItem("phoneNumber"); // Obtener el número de teléfono guardado
+      const phoneNumber = localStorage.getItem("phoneNumber");
 
       const newUser = new User(
         primerNombre.value,
@@ -124,10 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
         phoneNumber
       );
 
-      // Guardar el nuevo usuario
       account.saveUser(newUser);
 
-      // Guardar datos adicionales en el localStorage si es necesario
       localStorage.setItem("primerNombre", primerNombre.value);
       localStorage.setItem("segundoNombre", segundoNombre.value);
       localStorage.setItem("primerApellido", primerApellido.value);
@@ -139,8 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("numeroIdentificacion", numeroIdentificacion.value);
 
       alert("Datos guardados exitosamente.");
-
-      // Redirección
       window.location.href = "./creat_password.html";
     });
   }
@@ -150,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const phoneNumber = localStorage.getItem("phoneNumber");
 
     const user = account.getUser(phoneNumber);
-    //lo uso para validar, no me juzguen
+
     if (user) {
       console.log("Usuario encontrado:", user);
     } else {
@@ -159,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Elementos del DOM
     const pins = document.querySelectorAll(".password-inputs .pin");
     const numpad = document.querySelector(".numpad");
     const errorMessage = document.getElementById("error-message");
@@ -168,28 +198,23 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPin = "";
     const maxPinLength = pins.length;
 
-    // Evento: captura los clics en el teclado numérico
     numpad.addEventListener("click", (event) => {
       const button = event.target;
 
-      // Verifica si el elemento clicado es un botón válido
       if (button.tagName !== "BUTTON") return;
 
-      const value = button.getAttribute("data-value"); // Número ingresado
-      const action = button.getAttribute("data-action"); // Acción
+      const value = button.getAttribute("data-value");
+      const action = button.getAttribute("data-action");
 
       if (value && currentPin.length < maxPinLength) {
-        // Si es un número y hay espacio en la contraseña
         currentPin += value;
-        pins[currentPin.length - 1].value = "*"; // Muestra un asterisco
+        pins[currentPin.length - 1].value = "*";
       } else if (action === "delete" && currentPin.length > 0) {
-        // Si es la acción de borrar
         pins[currentPin.length - 1].value = "";
         currentPin = currentPin.slice(0, -1);
       }
     });
 
-    // Evento: al hacer clic en el botón "Aceptar"
     acceptButton.addEventListener("click", () => {
       if (currentPin.length !== maxPinLength) {
         errorMessage.textContent =
@@ -198,20 +223,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Verificar si el número de teléfono existe
       if (!phoneNumber) {
         errorMessage.textContent = "Número de teléfono no encontrado.";
         errorMessage.style.display = "block";
         return;
       }
 
-      // Guardar la contraseña al usuario encontrado
       if (user) {
         user.password = currentPin;
         account.saveUser(user);
 
         alert("Contraseña guardada exitosamente.");
-        window.location.href = "../index.html"; // Redirigir al inicio
+        window.location.href = "../index.html";
       } else {
         errorMessage.textContent = "Usuario no encontrado.";
         errorMessage.style.display = "block";
@@ -219,15 +242,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //PARTE DEL LOGINx
-
   const login = new Login();
 
-  // --- LOGIN.HTML: Validar número de teléfono ---
   if (window.location.pathname.includes("login.html")) {
-    const phoneInput = document.getElementById("phone"); // Input del número de teléfono
-    const loginButton = document.getElementById("login-btn"); // Botón para continuar
-    const errorMessage = document.getElementById("error-message"); // Mensaje de error
+    const phoneInput = document.getElementById("phone");
+    const loginButton = document.getElementById("login-btn");
+    const errorMessage = document.getElementById("error-message");
 
     loginButton.addEventListener("click", () => {
       const phoneNumber = phoneInput.value.trim();
@@ -245,15 +265,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Guardar temporalmente el número en localStorage para usarlo en el próximo paso
       localStorage.setItem("currentPhoneNumber", phoneNumber);
       window.location.href = "password.html";
     });
   }
 
-  // --- PASSWORD.HTML: Validar contraseña ---
   if (window.location.pathname.includes("password.html")) {
-    const savedPhoneNumber = localStorage.getItem("currentPhoneNumber");
     const passwordInputs = document.querySelectorAll(".pin");
     const numpadButtons = document.querySelectorAll(".numpad button");
     const errorMessage = document.getElementById("error-message");
@@ -266,7 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let enteredPassword = "";
 
-    // Lógica para los botones del teclado numérico
     numpadButtons.forEach((button) => {
       button.addEventListener("click", () => {
         const value = button.textContent;

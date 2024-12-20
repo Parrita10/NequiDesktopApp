@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacciones</title>
+    <link rel="stylesheet" href="../css/transactions.css">
+</head>
+<body>
+    <header>
+        <img src="../images/logo.png" alt="Nequi Logo" class="logo">
+        <button class="block-btn">Bloquear Nequi</button>
+        <button class="back-btn" onclick="history.back()">Volver</button>
+    </header>
+    <main>
+        <div class="transactions-container">
+            <!-- Transacciones generadas dinámicamente -->
+        </div>
+    </main>
+</body>
+<script>
+    // Simulación de transacciones generadas dinámicamente
+    const transactions = [
+        {
+            title: "Envío realizado",
+            amount: "$ 25.000",
+            phone: "3215858933",
+            description: "Compra hecha de salchipapas"
+        },
+        {
+            title: "Recarga realizada",
+            amount: "$ 50.000",
+            phone: "3104567890",
+            description: "Recarga exitosa"
+        },
+        {
+            title: "Retiro realizado",
+            amount: "$ 10.000",
+            phone: "3151234567",
+            description: "Retiro en cajero automático"
+        }
+    ];
+
+    const container = document.querySelector(".transactions-container");
+
+    transactions.forEach(transaction => {
+        const transactionCard = document.createElement("div");
+        transactionCard.classList.add("transaction-card");
+        transactionCard.innerHTML = `
+            <h2>${transaction.title}</h2>
+            <p><span class="label">Monto:</span> <span class="value">${transaction.amount}</span></p>
+            <p><span class="label">Número de teléfono:</span> <span class="value">${transaction.phone}</span></p>
+            <p><span class="label">Descripción:</span> <span class="value">${transaction.description}</span></p>
+        `;
+        container.appendChild(transactionCard);
+    });
+</script>
+</html>
+s

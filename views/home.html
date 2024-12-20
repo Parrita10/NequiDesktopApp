@@ -19,7 +19,6 @@
         <div class="header-right">
           <button class="block-btn">Bloquear Nequi</button>
           <button class="exit-btn" onclick="location.href = '../index.html'">Salir</button>
-
         </div>
       </header>
 
@@ -32,7 +31,6 @@
           <p class="total">Total $ 0,00</p>
         </div>
 
-        <!-- Chat Card -->
         <!-- Chat Card -->
         <div class="nequi-card">
           <div class="chat-content">
@@ -65,13 +63,18 @@
         </div>
         <div class="side-item">
           <h3>Transacciones</h3>
-          <button class="side-btn">&larr;</button>
+          <button id="transactions-btn" class="side-btn">&larr;</button>
+        </div>
+        <div class="side-item">
+          <h3>Retirar</h3>
+          <button id="withdraw-btn" class="side-btn">&uarr;</button>
         </div>
         <div class="side-item">
           <h3>Configuración</h3>
-          <button class="side-btn">&uarr;</button>
+          <button id="configuration-btn" class="side-btn">⚙️</button>
         </div>
       </aside>
     </div>
+    <script type="module" src="../js/main.js"></script>
   </body>
 </html>
