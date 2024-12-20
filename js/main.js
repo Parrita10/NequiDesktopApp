@@ -339,10 +339,72 @@ document.addEventListener("DOMContentLoaded", () => {
     // Obtener el balance almacenado en localStorage y mostrarlo
     const currentBalance =
       localStorage.getItem(phoneNumber + "userBalance") || user.amount;
+
     const balanceElement = document.querySelector(".balance-card .amount");
     if (balanceElement) {
       balanceElement.textContent = `$ ${parseFloat(currentBalance).toFixed(2)}`;
     }
+  }
+
+  //Vista de la función enviar
+  if (window.location.pathname.includes("send.html")) {
+    const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+    const account = new Account();
+    const users = account.getAllUsers(); // Obtén todos los usuarios
+    const sender = users[currentPhoneNumber]; // Usuario actual (quien envía el dinero)
+
+    const sendForm = document.getElementById("send-form");
+    const recipientPhoneNumberInput = document.getElementById("phone-number");
+    const amountInput = document.getElementById("amount");
+
+    // Manejo del evento de envío del formulario
+    sendForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const recipientPhoneNumber = recipientPhoneNumberInput.value.trim();
+      const sendAmount = parseFloat(amountInput.value);
+
+      // Verificar que el destinatario exista
+      if (!users[recipientPhoneNumber]) {
+        alert("El número ingresado no pertenece a ningún usuario registrado.");
+        return;
+      }
+
+      // Verificar que el monto sea válido
+      if (isNaN(sendAmount) || sendAmount <= 0) {
+        alert("Por favor, ingresa un monto válido.");
+        return;
+      }
+
+      // Verificar que el usuario tenga suficiente saldo
+      if (sender.amount < sendAmount) {
+        alert("No tienes suficiente saldo para enviar esta cantidad.");
+        return;
+      }
+
+      // Actualizar los saldos
+      sender.amount -= sendAmount; // Restar el monto al remitente
+      const recipient = users[recipientPhoneNumber];
+      recipient.amount += sendAmount; // Sumar el monto al destinatario
+
+      // Guardar los cambios en el almacenamiento local
+      account.saveUser(sender);
+      // Actualizar el balance en el home
+      localStorage.setItem(
+        currentPhoneNumber + "userBalance",
+        sender.amount.toFixed(2)
+      );
+      account.saveUser(recipient);
+
+      localStorage.setItem(
+        recipientPhoneNumber + "userBalance",
+        recipient.amount.toFixed(2)
+      );
+
+      // Mensaje de éxito
+      alert(`Has enviado $${sendAmount.toFixed(2)} a ${recipientPhoneNumber}.`);
+      window.location.href = "home.html"; // Redirigir al home
+    });
   }
 
   //Vista del deposito
