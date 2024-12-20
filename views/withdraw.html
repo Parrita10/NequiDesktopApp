@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw</title>
+    <link rel="stylesheet" href="../css/withdraw.css">
+</head>
+<body>
+    <header>
+        <img src="../images/logo.png" alt="Nequi Logo" class="logo">
+        <button class="back-btn" onclick="history.back()">Volver</button>
+    </header>
+    <main>
+        <section class="withdraw-container">
+            <h2>Retirar Dinero</h2>
+            <div class="form-group">
+                <label for="amount">Monto a retirar</label>
+                <input type="number" id="amount" placeholder="Ingrese el monto">
+            </div>
+            <div class="form-group">
+                <label for="withdraw-method">Método de retiro</label>
+                <select id="withdraw-method">
+                    <option value="atm">Cajero Automático</option>
+                    <option value="bank">Transferencia Bancaria</option>
+                </select>
+            </div>
+            <button id="withdraw-btn" class="withdraw-btn">Retirar</button>
+            <p id="withdraw-message" class="withdraw-message"></p>
+        </section>
+    </main>
+    <footer>
+        <p>© 2024 Nequi App</p>
+    </footer>
+
+    <script src="../js/withdraw.js"></script>
+</body>
+</html>

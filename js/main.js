@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
       account.saveUser(newUser);
 
       alert("Datos guardados exitosamente.");
-      window.location.href = "./creat_password.html";
+      window.location.href = "./account_options.html";
     });
   }
 
