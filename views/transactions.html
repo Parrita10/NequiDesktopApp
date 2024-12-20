@@ -14,46 +14,39 @@
     </header>
     <main>
         <div class="transactions-container">
-            <!-- Transacciones generadas dinámicamente -->
+            <!-- Las transacciones se generarán dinámicamente aquí -->
         </div>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+            const transactionsKey = `${currentPhoneNumber}_transactions`;
+            const transactionsContainer = document.querySelector(".transactions-container");
+            const transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
+
+            // Limpia el contenedor antes de agregar las transacciones dinámicas
+            transactionsContainer.innerHTML = "";
+
+            // Si no hay transacciones, muestra un mensaje
+            if (transactions.length === 0) {
+                transactionsContainer.innerHTML = "<p>No hay transacciones disponibles.</p>";
+                return;
+            }
+
+            // Generar dinámicamente las transacciones
+            transactions.forEach(transaction => {
+                const transactionCard = document.createElement("div");
+                transactionCard.classList.add("transaction-card");
+                transactionCard.innerHTML = `
+                    <h2>${transaction.title}</h2>
+                    <p><span class="label">Monto:</span> <span class="value">${transaction.amount}</span></p>
+                    <p><span class="label">Número de teléfono:</span> <span class="value">${transaction.phone}</span></p>
+                    <p><span class="label">Descripción:</span> <span class="value">${transaction.description}</span></p>
+                    <p><span class="label">Fecha:</span> <span class="value">${transaction.date}</span></p>
+                `;
+                transactionsContainer.appendChild(transactionCard);
+            });
+        });
+    </script>
 </body>
-<script>
-    // Simulación de transacciones generadas dinámicamente
-    const transactions = [
-        {
-            title: "Envío realizado",
-            amount: "$ 25.000",
-            phone: "3215858933",
-            description: "Compra hecha de salchipapas"
-        },
-        {
-            title: "Recarga realizada",
-            amount: "$ 50.000",
-            phone: "3104567890",
-            description: "Recarga exitosa"
-        },
-        {
-            title: "Retiro realizado",
-            amount: "$ 10.000",
-            phone: "3151234567",
-            description: "Retiro en cajero automático"
-        }
-    ];
-
-    const container = document.querySelector(".transactions-container");
-
-    transactions.forEach(transaction => {
-        const transactionCard = document.createElement("div");
-        transactionCard.classList.add("transaction-card");
-        transactionCard.innerHTML = `
-            <h2>${transaction.title}</h2>
-            <p><span class="label">Monto:</span> <span class="value">${transaction.amount}</span></p>
-            <p><span class="label">Número de teléfono:</span> <span class="value">${transaction.phone}</span></p>
-            <p><span class="label">Descripción:</span> <span class="value">${transaction.description}</span></p>
-        `;
-        container.appendChild(transactionCard);
-    });
-</script>
 </html>
-s
