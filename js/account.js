@@ -56,16 +56,12 @@ class Account {
   cleanInvalidKeys() {
     const users = this.getAllUsers();
 
-    console.log("Estado inicial de usuarios:", users);
-
     for (const key in users) {
       if (users[key] === undefined || users[key] === "undefined") {
         console.log(`Eliminando clave con valor inválido: ${key}`);
         delete users[key];
       }
     }
-
-    console.log("Estado final de usuarios:", users);
 
     localStorage.setItem(this.usersKey, JSON.stringify(users));
   }

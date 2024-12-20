@@ -14,7 +14,7 @@
           <img src="../images/logo.png" alt="Logo Nequi" class="logo" />
         </div>
         <div class="header-center">
-          <h2>Hola, Kevin Santiago!</h2>
+          <h2 id="user-name">Hola, Kevin Santiago!</h2>
         </div>
         <div class="header-right">
           <button class="block-btn">Bloquear Nequi</button>
@@ -22,6 +22,7 @@
             class="exit-btn"
             onclick="window.location.href='/index.html'"
           >
+          <button class="exit-btn" onclick="window.location.href='/index.html'">
             Salir
           </button>
         </div>
@@ -60,23 +61,48 @@
       <aside class="side-menu">
         <div class="side-item">
           <h3>Enviar</h3>
-          <button class="side-btn">&rarr;</button>
+          <button class="side-btn" onclick="window.location.href='send.html'">
+            &rarr;
+          </button>
         </div>
         <div class="side-item">
           <h3>Recargar</h3>
-          <button class="side-btn">&darr;</button>
+          <button
+            class="side-btn"
+            onclick="window.location.href='deposit.html'"
+          >
+            &darr;
+          </button>
         </div>
         <div class="side-item">
           <h3>Transacciones</h3>
-          <button id="transactions-btn" class="side-btn">&larr;</button>
+          <button
+            id="transactions-btn"
+            class="side-btn"
+            onclick="window.location.href='transactions.html'"
+          >
+            &larr;
+          </button>
         </div>
         <div class="side-item">
           <h3>Retirar</h3>
-          <button id="withdraw-btn" class="side-btn">&uarr;</button>
+          <button
+            id="withdraw-btn"
+            class="side-btn"
+            onclick="window.location.href='withdraw.html'"
+          >
+            &uarr;
+          </button>
         </div>
         <div class="side-item">
           <h3>Configuración</h3>
-          <button id="configuration-btn" class="side-btn">⚙️</button>
+          <button
+            id="configuration-btn"
+            class="side-btn"
+            onclick="window.location.href='configuration.html'"
+          >
+            ⚙️
+          </button>
         </div>
       </aside>
     </div>

@@ -1,53 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Depositar Dinero</title>
-  <link rel="stylesheet" href="../css/deposit.css" />
-</head>
-<body>
-  <div class="container">
-    <!-- Barra superior -->
-    <header>
-      <div class="header-left">
-        <img src="../images/logo.png" alt="Logo Nequi" class="logo" />
-      </div>
-      <div class="header-right">
-        <button class="block-btn">Bloquear Nequi</button>
-        <button class="back-btn" onclick="location.href = 'home.html'">Volver</button>
-      </div>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Depositar Dinero</title>
+    <link rel="stylesheet" href="../css/deposit.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Barra superior -->
+      <header>
+        <div class="header-left">
+          <img src="../images/logo.png" alt="Logo Nequi" class="logo" />
+        </div>
+        <div class="header-right">
+          <button class="block-btn">Bloquear Nequi</button>
+          <button class="back-btn" onclick="location.href = 'home.html'">
+            Volver
+          </button>
+        </div>
+      </header>
 
-    <!-- Contenido principal -->
-    <main>
-      <div class="deposit-card">
-        <h2>Depositar dinero</h2>
-        <form id="deposit-form">
-          <label for="phone-number">
-            <span class="highlight">Cel</span>
-            <input
-              type="text"
-              id="phone-number"
-              placeholder="Número de cel"
-              required
-            />
-          </label>
-          <p>Revisa bien el número para enviarle a la persona correcta</p>
+      <!-- Contenido principal -->
+      <main>
+        <div class="deposit-card">
+          <h2>Recargar dinero</h2>
+          <form id="deposit-form">
+            <label for="phone-number">
+              <span class="highlight">Cel</span>
+              <input
+                type="text"
+                id="phone-number"
+                placeholder="Número de cel"
+                required
+              />
+            </label>
+            <p>Revisa bien el número para enviarle a la persona correcta</p>
 
-          <label for="amount">
-            <input
-              type="text"
-              id="amount"
-              placeholder="¿Cuánto?"
-              required
-            />
-          </label>
+            <label for="amount">
+              <input type="text" id="amount" placeholder="¿Cuánto?" required />
+            </label>
 
-          <button type="submit" class="deposit-btn">Depositar</button>
-        </form>
-      </div>
-    </main>
-  </div>
-</body>
+            <button type="submit" class="deposit-btn">Recargar</button>
+          </form>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="../js/main.js"></script>
+  </body>
 </html>

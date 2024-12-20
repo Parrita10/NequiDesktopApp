@@ -2,7 +2,6 @@ import Account from "./account.js";
 import User from "./user.js";
 import Login from "./login.js";
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const account = new Account(); // Instancia de Account
 
@@ -14,11 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const user = account.getAllUsers();
     console.log(user);
 
-
-
-//GARANTIZAR QUE NO HAYAN CLAVES INDEFINIDAS :D
-account.cleanInvalidKeys();
-console.log(user);
+    //GARANTIZAR QUE NO HAYAN CLAVES INDEFINIDAS :D
+    account.cleanInvalidKeys();
+    console.log(user);
 
     sendCodeButton.addEventListener("click", () => {
       const phoneValue = phoneNumberInput.value.trim();
@@ -47,7 +44,6 @@ console.log(user);
       // Crear usuario y guardarlo
       const newUser = new User(phoneValue);
       account.saveUser(newUser);
-      
 
       localStorage.setItem("phoneNumber", phoneValue); // Guardar número en LocalStorage
       errorMessage.textContent = "Número guardado exitosamente.";
@@ -61,7 +57,8 @@ console.log(user);
 
     if (!phoneNumber) {
       const errorMessage = document.createElement("p");
-      errorMessage.textContent = "No se encontró un usuario activo. Por favor, inicia sesión.";
+      errorMessage.textContent =
+        "No se encontró un usuario activo. Por favor, inicia sesión.";
       document.body.appendChild(errorMessage);
       return;
     }
@@ -70,7 +67,8 @@ console.log(user);
 
     if (!user) {
       const errorMessage = document.createElement("p");
-      errorMessage.textContent = "Usuario no encontrado. Por favor, reinicia el registro.";
+      errorMessage.textContent =
+        "Usuario no encontrado. Por favor, reinicia el registro.";
       document.body.appendChild(errorMessage);
       return;
     }
@@ -204,7 +202,8 @@ console.log(user);
       }
 
       if (newPassword.length !== 4 || isNaN(newPassword)) {
-        passwordMessage.textContent = "La nueva clave debe ser un número de 4 dígitos.";
+        passwordMessage.textContent =
+          "La nueva clave debe ser un número de 4 dígitos.";
         passwordMessage.style.color = "#ff0000";
         passwordMessage.style.display = "block";
         return;
@@ -345,6 +344,7 @@ console.log(user);
       );
 
       account.saveUser(newUser);
+
       alert("Datos guardados exitosamente.");
       window.location.href = "./creat_password.html";
     });
@@ -495,7 +495,7 @@ console.log(user);
       if (login.validatePassword(savedPhoneNumber, enteredPassword)) {
         alert("Inicio de sesión exitoso.");
         const currentUser = login.getCurrentUser(savedPhoneNumber);
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
         window.location.href = "home.html";
       } else {
         errorMessage.textContent = "Contraseña incorrecta. Intenta de nuevo.";
@@ -505,6 +505,102 @@ console.log(user);
         passwordInputs.forEach((input) => {
           input.value = "";
         });
+      }
+    });
+  }
+
+  //Sección del home
+
+  if (window.location.pathname.includes("home.html")) {
+    const sendButton = document.querySelector(
+      ".side-item:nth-child(1) .side-btn"
+    );
+    const depositButton = document.querySelector(
+      ".side-item:nth-child(2) .side-btn"
+    );
+    const transactionButton = document.querySelector(
+      ".side-item:nth-child(3) .side-btn"
+    );
+    const withdrawButton = document.querySelector(
+      ".side-item:nth-child(4) .side-btn"
+    );
+    const configurationButton = document.querySelector(
+      ".side-item:nth-child(5) .side-btn"
+    );
+
+    // Redirecciónes
+    sendButton.addEventListener("click", () => {
+      window.location.href = "send.html";
+    });
+    depositButton.addEventListener("click", () => {
+      window.location.href = "deposit.html";
+    });
+    transactionButton.addEventListener("click", () => {
+      window.location.href = "transactions.html";
+    });
+    withdrawButton.addEventListener("click", () => {
+      window.location.href = "withdraw.html";
+    });
+    configurationButton.addEventListener("click", () => {
+      window.location.href = "configuration.html";
+    });
+
+    //Lógica para el nombre del header
+    const phoneNumber = localStorage.getItem("currentPhoneNumber");
+    const users = account.getAllUsers();
+    const user = users[phoneNumber];
+
+    const fullName = `${user.userName} ${user.surName} alias ${user.nickName}`;
+    localStorage.setItem("fullName", fullName);
+
+    const headerCenter = document.querySelector(".header-center h2");
+    if (headerCenter && fullName) {
+      headerCenter.textContent = `Hola, ${fullName}!`;
+    }
+
+    // Obtener el balance almacenado en localStorage y mostrarlo
+    const currentBalance =
+      localStorage.getItem(phoneNumber + "userBalance") || user.amount;
+    const balanceElement = document.querySelector(".balance-card .amount");
+    if (balanceElement) {
+      balanceElement.textContent = `$ ${parseFloat(currentBalance).toFixed(2)}`;
+    }
+  }
+
+  //Vista del deposito
+  if (window.location.pathname.includes("deposit.html")) {
+    const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+    const account = new Account();
+    const users = account.getAllUsers(); // Obtén todos los usuarios
+    const user = users[currentPhoneNumber]; // Busca al usuario usando el número de teléfono
+
+    const depositForm = document.getElementById("deposit-form");
+    const phoneNumberInput = document.getElementById("phone-number");
+    const amountInput = document.getElementById("amount");
+
+    // Manejo del evento de envío del formulario
+    depositForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const enteredPhoneNumber = phoneNumberInput.value;
+      const depositAmount = parseFloat(amountInput.value);
+
+      if (enteredPhoneNumber === currentPhoneNumber) {
+        // Si el número es correcto, actualizamos el balance
+        user.amount += depositAmount; // Actualiza el saldo directamente en el objeto usuario
+        account.saveUser(user); // Guarda los cambios del usuario con el nuevo saldo
+
+        // Actualizamos el balance en el home
+        localStorage.setItem(
+          currentPhoneNumber + "userBalance",
+          user.amount.toFixed(2)
+        );
+
+        // Mensaje de éxito
+        alert("Depósito realizado con éxito");
+        window.location.href = "home.html"; // Redirigimos al home
+      } else {
+        alert("El número ingresado no coincide con el número actual");
       }
     });
   }

@@ -9,7 +9,8 @@ class User {
     email,
     ID,
     phoneNumber,
-    password
+    password,
+    amount
   ) {
     this.userName = userName;
     this.middleName = middleName;
@@ -21,6 +22,12 @@ class User {
     this.ID = ID;
     this.phoneNumber = phoneNumber;
     this.password = password;
+    this.amount = amount;
+  }
+
+  // Método para actualizar el balance
+  updateBalance(newAmount) {
+    this.amount = newAmount;
   }
 }
 export default User;
