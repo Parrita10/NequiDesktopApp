@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enviar Plata</title>
+  <link rel="stylesheet" href="../css/send.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Barra superior -->
+    <header>
+      <div class="header-left">
+        <img src="../images/logo.png" alt="Logo Nequi" class="logo" />
+      </div>
+      <div class="header-right">
+        <button class="block-btn">Bloquear Nequi</button>
+        <button class="back-btn" onclick="location.href = 'home.html'">Volver</button>
+      </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main>
+      <div class="send-card">
+        <h2>Envía plata</h2>
+        <form id="send-form">
+          <label for="phone-number">
+            <span class="highlight">Cel</span>
+            <input
+              type="text"
+              id="phone-number"
+              placeholder="Número de cel"
+              required
+            />
+          </label>
+          <p>Revisa bien el número para enviarle a la persona correcta</p>
+
+          <label for="amount">
+            <input
+              type="text"
+              id="amount"
+              placeholder="¿Cuánto?"
+              required
+            />
+          </label>
+
+          <label for="message">
+            <textarea
+              id="message"
+              placeholder="Mensaje"
+              rows="2"
+            ></textarea>
+          </label>
+
+          <p class="available">Disponible ...</p>
+
+          <button type="submit" class="send-btn">Enviar</button>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
