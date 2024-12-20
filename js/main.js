@@ -1,4 +1,4 @@
-import Account from "./account.js"; 
+import Account from "./account.js";
 import User from "./user.js";
 import Login from "./login.js";
 
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         amount: `-$ ${amount.toLocaleString("es-CO")}`,
         phone: currentPhoneNumber,
         description: "Retiro en cajero automático",
-        date: new Date().toLocaleString("es-CO")
+        date: new Date().toLocaleString("es-CO"),
       });
 
       withdrawMessage.textContent = "Retiro exitoso.";
@@ -67,21 +67,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Lógica para la vista de envío
-if (window.location.pathname.includes("send.html")) {
-  const sendForm = document.getElementById("send-form");
-  const recipientPhoneNumberInput = document.getElementById("phone-number");
-  const amountInput = document.getElementById("amount");
-  const messageInput = document.getElementById("message"); // Campo para el mensaje
-  const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
-  const user = account.getUser(currentPhoneNumber);
+  if (window.location.pathname.includes("send.html")) {
+    const sendForm = document.getElementById("send-form");
+    const recipientPhoneNumberInput = document.getElementById("phone-number");
+    const amountInput = document.getElementById("amount");
+    const messageInput = document.getElementById("message"); // Campo para el mensaje
+    const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+    const user = account.getUser(currentPhoneNumber);
 
-  if (!user) {
+    if (!user) {
       alert("Por favor, inicia sesión.");
       window.location.href = "login.html";
       return;
-  }
+    }
 
-  sendForm.addEventListener("submit", (event) => {
+    sendForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
       const recipientPhoneNumber = recipientPhoneNumberInput.value.trim();
@@ -90,18 +90,18 @@ if (window.location.pathname.includes("send.html")) {
       const message = messageInput.value.trim(); // Captura el mensaje
 
       if (!recipientPhoneNumber || !account.userExists(recipientPhoneNumber)) {
-          alert("El número ingresado no pertenece a ningún usuario registrado.");
-          return;
+        alert("El número ingresado no pertenece a ningún usuario registrado.");
+        return;
       }
 
       if (isNaN(amount) || amount <= 0) {
-          alert("Por favor, ingresa un monto válido.");
-          return;
+        alert("Por favor, ingresa un monto válido.");
+        return;
       }
 
       if (user.amount < amount) {
-          alert("No tienes suficiente saldo para enviar esta cantidad.");
-          return;
+        alert("No tienes suficiente saldo para enviar esta cantidad.");
+        return;
       }
 
       const recipient = account.getUser(recipientPhoneNumber);
@@ -113,27 +113,30 @@ if (window.location.pathname.includes("send.html")) {
 
       // Guardar la transacción para el remitente
       saveTransaction(currentPhoneNumber, {
-          title: "Envío realizado",
-          amount: `-$ ${amount.toLocaleString("es-CO")}`,
-          phone: recipientPhoneNumber,
-          description: message || "Sin mensaje", // Guardar el mensaje o un valor por defecto
-          date: new Date().toLocaleString("es-CO")
+        title: "Envío realizado",
+        amount: `-$ ${amount.toLocaleString("es-CO")}`,
+        phone: recipientPhoneNumber,
+        description: message || "Sin mensaje", // Guardar el mensaje o un valor por defecto
+        date: new Date().toLocaleString("es-CO"),
       });
 
       // Guardar la transacción para el destinatario
       saveTransaction(recipientPhoneNumber, {
-          title: "Dinero recibido",
-          amount: `+$ ${amount.toLocaleString("es-CO")}`,
-          phone: currentPhoneNumber,
-          description: "Recepción de dinero",
-          date: new Date().toLocaleString("es-CO")
+        title: "Dinero recibido",
+        amount: `+$ ${amount.toLocaleString("es-CO")}`,
+        phone: currentPhoneNumber,
+        description: "Recepción de dinero",
+        date: new Date().toLocaleString("es-CO"),
       });
 
-      alert(`Has enviado $${amount.toLocaleString("es-CO")} a ${recipientPhoneNumber}.`);
+      alert(
+        `Has enviado $${amount.toLocaleString(
+          "es-CO"
+        )} a ${recipientPhoneNumber}.`
+      );
       window.location.href = "home.html";
-  });
-}
-
+    });
+  }
 
   // Lógica para la vista de depósito
   if (window.location.pathname.includes("deposit.html")) {
@@ -167,7 +170,7 @@ if (window.location.pathname.includes("send.html")) {
         amount: `+$ ${amount.toLocaleString("es-CO")}`,
         phone: currentPhoneNumber,
         description: "Depósito de dinero",
-        date: new Date().toLocaleString("es-CO")
+        date: new Date().toLocaleString("es-CO"),
       });
 
       alert(`Has depositado $${amount.toLocaleString("es-CO")} correctamente.`);
@@ -179,8 +182,11 @@ if (window.location.pathname.includes("send.html")) {
   if (window.location.pathname.includes("transactions.html")) {
     const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
     const transactionsKey = `${currentPhoneNumber}_transactions`;
-    const transactionsContainer = document.querySelector(".transactions-container");
-    const transactions = JSON.parse(localStorage.getItem(transactionsKey)) || [];
+    const transactionsContainer = document.querySelector(
+      ".transactions-container"
+    );
+    const transactions =
+      JSON.parse(localStorage.getItem(transactionsKey)) || [];
 
     transactions.forEach((transaction) => {
       const transactionCard = document.createElement("div");
@@ -195,8 +201,6 @@ if (window.location.pathname.includes("send.html")) {
       transactionsContainer.appendChild(transactionCard);
     });
   }
-
-
 
   // Lógica para la vista de registro
   if (window.location.pathname.includes("register.html")) {
@@ -263,50 +267,49 @@ if (window.location.pathname.includes("send.html")) {
     }
   }
 
-  
-// Lógica para la vista de Retiro
-if (window.location.pathname.includes("withdraw.html")) {
-  const amountInput = document.getElementById("amount");
-  const withdrawMethod = document.getElementById("withdraw-method");
-  const withdrawBtn = document.getElementById("withdraw-btn");
-  const withdrawMessage = document.getElementById("withdraw-message");
-  const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
-  const user = account.getUser(currentPhoneNumber);
+  // Lógica para la vista de Retiro
+  if (window.location.pathname.includes("withdraw.html")) {
+    const amountInput = document.getElementById("amount");
+    const withdrawMethod = document.getElementById("withdraw-method");
+    const withdrawBtn = document.getElementById("withdraw-btn");
+    const withdrawMessage = document.getElementById("withdraw-message");
+    const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+    const user = account.getUser(currentPhoneNumber);
 
-  // Si no hay usuario activo, redirige al login
-  if (!user) {
+    // Si no hay usuario activo, redirige al login
+    if (!user) {
       alert("Por favor, inicia sesión.");
       window.location.href = "login.html";
       return;
-  }
+    }
 
-  // Formatear el monto al escribir
-  amountInput.addEventListener("input", (e) => {
+    // Formatear el monto al escribir
+    amountInput.addEventListener("input", (e) => {
       const rawValue = e.target.value.replace(/\D/g, ""); // Elimina cualquier carácter no numérico
       const formattedValue = new Intl.NumberFormat("es-CO").format(rawValue);
       e.target.value = formattedValue;
-  });
+    });
 
-  // Eliminar la opción de transferencia bancaria
-  withdrawMethod.innerHTML = `<option value="atm">Cajero Automático</option>`;
+    // Eliminar la opción de transferencia bancaria
+    withdrawMethod.innerHTML = `<option value="atm">Cajero Automático</option>`;
 
-  // Manejo del evento de retiro
-  withdrawBtn.addEventListener("click", () => {
+    // Manejo del evento de retiro
+    withdrawBtn.addEventListener("click", () => {
       const rawAmount = amountInput.value.replace(/\D/g, ""); // Obtiene el valor sin formato
       const amount = parseInt(rawAmount, 10);
 
       if (isNaN(amount) || amount <= 0) {
-          withdrawMessage.textContent = "Por favor, ingresa un monto válido.";
-          withdrawMessage.className = "withdraw-message error";
-          withdrawMessage.style.display = "block";
-          return;
+        withdrawMessage.textContent = "Por favor, ingresa un monto válido.";
+        withdrawMessage.className = "withdraw-message error";
+        withdrawMessage.style.display = "block";
+        return;
       }
 
       if (user.amount < amount) {
-          withdrawMessage.textContent = "Saldo insuficiente para este retiro.";
-          withdrawMessage.className = "withdraw-message error";
-          withdrawMessage.style.display = "block";
-          return;
+        withdrawMessage.textContent = "Saldo insuficiente para este retiro.";
+        withdrawMessage.className = "withdraw-message error";
+        withdrawMessage.style.display = "block";
+        return;
       }
 
       // Actualizar el saldo del usuario
@@ -318,18 +321,17 @@ if (window.location.pathname.includes("withdraw.html")) {
       withdrawMessage.style.display = "block";
 
       // Actualiza el saldo en localStorage
-      localStorage.setItem(currentPhoneNumber + "userBalance", user.amount.toFixed(2));
+      localStorage.setItem(
+        currentPhoneNumber + "userBalance",
+        user.amount.toFixed(2)
+      );
 
       // Redirige al home después de 2 segundos
       setTimeout(() => {
-          window.location.href = "home.html";
+        window.location.href = "home.html";
       }, 2000);
-  });
-}
-
-
-
-
+    });
+  }
 
   // Lógica para la vista de Personal info
   if (window.location.pathname.includes("personal_info.html")) {
@@ -388,9 +390,6 @@ if (window.location.pathname.includes("withdraw.html")) {
       window.location.href = "./account_options.html";
     });
   }
-
-
-
 
   if (window.location.pathname.includes("creat_password.html")) {
     const account = new Account();
@@ -600,13 +599,24 @@ if (window.location.pathname.includes("withdraw.html")) {
       headerCenter.textContent = `Hola, ${fullName}!`;
     }
 
-    // Obtener el balance almacenado en localStorage y mostrarlo
-    const currentBalance =
-      localStorage.getItem(phoneNumber + "userBalance") || user.amount;
+    // Validar si el saldo es NaN, undefined o inválido
+    if (
+      isNaN(user.amount) ||
+      user.amount === undefined ||
+      user.amount === null
+    ) {
+      // Si el saldo no es válido, establecerlo en 0.00
+      user.amount = 0.0;
+      account.saveUser(user); // Guardar el saldo corregido en la base de datos
+    } else {
+      // Si el saldo es válido, obtener y mantener el saldo actual
+      user.amount = parseFloat(user.amount);
+    }
 
+    // Mostrar el saldo actualizado
     const balanceElement = document.querySelector(".balance-card .amount");
     if (balanceElement) {
-      balanceElement.textContent = `$ ${parseFloat(currentBalance).toFixed(2)}`;
+      balanceElement.textContent = `$ ${user.amount.toFixed(2)}`;
     }
   }
 

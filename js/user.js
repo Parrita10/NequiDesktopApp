@@ -22,12 +22,7 @@ class User {
     this.ID = ID;
     this.phoneNumber = phoneNumber;
     this.password = password;
-    this.amount = amount;
-  }
-
-  // Método para actualizar el balance
-  updateBalance(newAmount) {
-    this.amount = newAmount;
+    this.amount = 0.0;
   }
 }
 export default User;
