@@ -740,7 +740,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  //Sección del home
+  // Sección del home
 
   if (window.location.pathname.includes("home.html")) {
     const sendButton = document.querySelector(
@@ -776,7 +776,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "configuration.html";
     });
 
-    //Lógica para el nombre del header
+    // Lógica para el nombre del header
     const phoneNumber = localStorage.getItem("currentPhoneNumber");
     const users = account.getAllUsers();
     const user = users[phoneNumber];
@@ -808,5 +808,94 @@ document.addEventListener("DOMContentLoaded", () => {
     if (balanceElement) {
       balanceElement.textContent = `$ ${user.amount.toFixed(2)}`;
     }
+
+    // ---- Integración del Chatbot ----
+    const chatInput = document.querySelector(".chat-input");
+    const sendChatButton = document.querySelector(".send-btn");
+    const chatInnerBox = document.querySelector(".chat-inner-box");
+
+    const API_KEY = "AIzaSyBCvWe2r9OkL1Jc6XesDyyGWnVlKFFTuM4";
+    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+    // Función para llamar a la API de Gemini
+    async function llamarGemini(prompt) {
+      try {
+        // Realizamos la solicitud a la API
+        const respuesta = await fetch(URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: prompt }],
+              },
+            ],
+          }),
+        });
+
+        // Verificamos que la respuesta sea exitosa
+        if (!respuesta.ok) {
+          const errorText = await respuesta.text();
+          throw new Error(`Error HTTP: ${respuesta.status}, ${errorText}`);
+        }
+
+        // Parseamos la respuesta JSON
+        const datos = await respuesta.json();
+
+        // Verificamos la estructura de los datos
+        if (
+          datos &&
+          datos.contents &&
+          Array.isArray(datos.contents) &&
+          datos.contents[0].parts &&
+          Array.isArray(datos.contents[0].parts)
+        ) {
+          const textoGenerado =
+            datos.contents[0].parts[0].text || "Lo siento, no entendí eso.";
+          return textoGenerado;
+        } else {
+          console.error(
+            "Estructura inesperada en la respuesta de la API",
+            datos
+          );
+          return "Hubo un problema al procesar la respuesta de la IA.";
+        }
+      } catch (error) {
+        console.error("Error al llamar a la API de Gemini:", error);
+        return "Hubo un problema al conectar con la IA.";
+      }
+    }
+
+    // Función para agregar el mensaje en el chat
+    function agregarMensaje(texto, clase) {
+      const mensaje = document.createElement("div");
+      mensaje.classList.add("mensaje", clase);
+      mensaje.textContent = texto;
+      chatInnerBox.appendChild(mensaje);
+      chatInnerBox.scrollTop = chatInnerBox.scrollHeight;
+    }
+
+    // Evento de enviar el mensaje
+    sendChatButton.addEventListener("click", async () => {
+      const mensajeUsuario = chatInput.value.trim();
+
+      if (mensajeUsuario === "") return;
+
+      agregarMensaje(mensajeUsuario, "usuario");
+      chatInput.value = "";
+
+      const respuestaIA = await llamarGemini(mensajeUsuario);
+      agregarMensaje(respuestaIA, "ia");
+    });
+
+    // Soporte para enviar con la tecla Enter
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendChatButton.click();
+      }
+    });
   }
 });
