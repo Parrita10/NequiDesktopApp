@@ -1,100 +1,104 @@
 /* Reset básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: #fce7f6;
-    color: #1f1b2d;
+  background-color: #fce7f6;
+  color: #1f1b2d;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
 }
 
 .logo {
-    width: 120px;
+  width: 200px;
+  position: relative;
 }
 
-.block-btn, .back-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.block-btn,
+.back-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .block-btn {
-    background-color: #ff007a;
-    color: white;
+  background-color: #ff007a;
+  color: white;
 }
 
 .back-btn {
-    background-color: white;
-    border: 1px solid #ccc;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 
 main {
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .transactions-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .transaction-card {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: left;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 
 .transaction-card h2 {
-    color: #1f1b2d;
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
+  color: #1f1b2d;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .transaction-card p {
-    margin-bottom: 8px;
-    font-size: 14px;
+  margin-bottom: 8px;
+  font-size: 14px;
 }
 
 .transaction-card .label {
-    color: #5a5a5a;
+  color: #5a5a5a;
 }
 
 .transaction-card .value {
-    color: #ff007a;
-    font-weight: bold;
+  color: #ff007a;
+  font-weight: bold;
 }
 
 .back-btn {
-    background-color: #e6006a;; /* Color verde */
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-  }
+  background-color: #e6006a; /* Color verde */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  width: 10%;
+}

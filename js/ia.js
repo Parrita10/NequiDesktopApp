@@ -1,5 +1,4 @@
-// IA.js - Clase que maneja las interacciones con la IA
-
+// Modificación en la función interactuarConUsuario para que salude si el mensaje contiene un saludo
 export default class IA {
   constructor() {
     this.temasPermitidos = [
@@ -98,9 +97,23 @@ export default class IA {
     };
   }
 
+  // Función para detectar un saludo
+  detectarSaludo(texto) {
+    const saludos = [
+      "hola",
+      "buenos días",
+      "buenas tardes",
+      "hey",
+      "qué tal",
+      "saludos",
+    ];
+    const textoNormalizado = texto.toLowerCase();
+    return saludos.some((saludo) => textoNormalizado.includes(saludo));
+  }
+
   // Función para validar si el tema está permitido
   validarTema(textIngresado) {
-    const textoNormalizado = textIngresado.toLowerCase().trim(); // Normalizar texto
+    const textoNormalizado = textIngresado.toLowerCase().trim();
     return this.temasPermitidos.some((tema) =>
       textoNormalizado.includes(tema.toLowerCase())
     );
@@ -129,14 +142,12 @@ export default class IA {
     const API_KEY = "AIzaSyBCvWe2r9OkL1Jc6XesDyyGWnVlKFFTuM4";
     const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-    // Verificar si el mensaje requiere una respuesta personalizada
     const respuestaPersonalizada =
       this.verificarRespuestaPersonalizada(textIngresado);
     if (respuestaPersonalizada) {
       return Promise.resolve(respuestaPersonalizada);
     }
 
-    // Validar el tema antes de hacer la petición
     if (!this.validarTema(textIngresado)) {
       return Promise.resolve(this.obtenerMensajeFueraDeContexto());
     }
@@ -162,13 +173,10 @@ export default class IA {
       })
       .then((datos) => {
         const textoGenerado = datos.candidates[0].content.parts[0].text;
-
-        // Limitar el texto a 200 caracteres
         const respuestaCorta =
           textoGenerado.length > 200
             ? textoGenerado.slice(0, 200) + "..."
             : textoGenerado;
-
         return respuestaCorta;
       })
       .catch((error) => {
@@ -177,9 +185,42 @@ export default class IA {
       });
   }
 
+  // Función de saludo
+  saludar() {
+    const saludos = [
+      "¡Hola! ¿Cómo puedo ayudarte hoy?",
+      "¡Buenos días! Estoy aquí para asistirte con tus finanzas. ¿En qué puedo ayudarte?",
+      "¡Hey! ¡Es un buen día para aprender sobre economía! ¿Cómo puedo ayudarte hoy?",
+      "¡Saludos! ¿Listo para aprender algo nuevo sobre finanzas?",
+      "¡Hola! Siempre es un buen momento para optimizar tus finanzas. ¿En qué te ayudo hoy?",
+    ];
+    return saludos[Math.floor(Math.random() * saludos.length)];
+  }
+
+  // Función de despedida
+  despedirse() {
+    const despedidas = [
+      "Fue un placer ayudarte, ¡espero que crezcas como una semillita de frijoles!",
+      "¡Adiós! Que tus finanzas crezcan tan rápido como tus sueños. ¡Hasta pronto!",
+      "Fue genial ayudarte, ¡espero que sigas cultivando tus finanzas con sabiduría!",
+      "¡Hasta luego! Recuerda, cada paso cuenta en el camino hacia el éxito financiero.",
+      "¡Cuídate! Espero que sigas creciendo como una planta en un jardín bien cuidado. ¡Hasta la próxima!",
+    ];
+    return despedidas[Math.floor(Math.random() * despedidas.length)];
+  }
+
+  // Función para interactuar con el usuario (puedes llamarla desde main.js)
   // Función para interactuar con el usuario (puedes llamarla desde main.js)
   interactuarConUsuario(textIngresado) {
+    // Si detecta un saludo, responde con un saludo
+    if (this.detectarSaludo(textIngresado)) {
+      return Promise.resolve(this.saludar());
+    }
+
     return this.llamarGemini(textIngresado).then((respuesta) => {
+      if (!this.validarTema(textIngresado)) {
+        return this.obtenerMensajeFueraDeContexto();
+      }
       return respuesta;
     });
   }

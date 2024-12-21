@@ -1,129 +1,138 @@
 /* Reset Básico */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 body {
-    background-color: #fce7f6;
-    color: #1f1b2d;
-    line-height: 1.5;
+  background-color: #fce7f6;
+  color: #1f1b2d;
+  line-height: 1.5;
 }
 
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
 }
 
 .logo {
-    width: 120px;
+  width: 200px;
+  position: relative;
 }
 
 .back-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid #ccc;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid #ccc;
 }
 
 main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 100px);
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
+  padding: 20px;
 }
 
 .withdraw-container {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 30px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px; /* Aumentado para que sea más ancho */
-    text-align: center;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  width: 55vh;
+  height: 71vh;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-
-
 h2 {
-    margin-bottom: 20px;
-    color: #1f1b2d;
+  color: #1f1b2d;
+  margin-bottom: 10px;
+  font-size: 29px;
+  font-weight: bold;
+  margin-left: -10.5rem;
+  margin-top: 1.5rem;
 }
 
 .form-group {
-    margin-bottom: 20px;
-    text-align: left;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 label {
-    display: block;
-    font-size: 14px;
-    color: #ff007a;
-    margin-bottom: 5px;
+  margin-top: 2rem;
+  display: block;
+  font-size: 17px;
+  color: #ff007a;
+  margin-bottom: 5px;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .withdraw-btn {
-    padding: 10px 20px;
-    background-color: #ff007a;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+  padding: 13px 20px;
+  background-color: #ff007a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 4rem;
+  width: 100%;
 }
 
 .withdraw-message {
-    margin-top: 15px;
-    font-size: 14px;
-    display: none; /* Oculto por defecto */
-    padding: 10px;
-    border-radius: 5px;
+  margin-top: 15px;
+  font-size: 14px;
+  display: none;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .withdraw-message.success {
-    background-color: #e0ffe0;
-    color: #2d7a2d;
-    border: 1px solid #b0ddb0;
+  background-color: #e0ffe0;
+  color: #2d7a2d;
+  border: 1px solid #b0ddb0;
 }
 
 .withdraw-message.error {
-    background-color: #ffe0e0;
-    color: #a12d2d;
-    border: 1px solid #ddb0b0;
+  background-color: #ffe0e0;
+  color: #a12d2d;
+  border: 1px solid #ddb0b0;
 }
 
 footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
 }
 
 .back-btn {
-    background-color: #e6006a;; /* Color verde */
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-  }
+  background-color: #e6006a; /* Color verde */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  width: 10%;
+}
