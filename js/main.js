@@ -8,77 +8,131 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //ACCIONES
 
-  // Enviar
-  if (window.location.pathname.includes("send.html")) {
-    const sendForm = document.getElementById("send-form");
-    const recipientPhoneNumberInput = document.getElementById("phone-number");
-    const amountInput = document.getElementById("amount");
-    const messageInput = document.getElementById("message"); // Campo para el mensaje
-    const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
-    const user = account.getUser(currentPhoneNumber);
+// Enviar
+if (window.location.pathname.includes("send.html")) {
+  const sendForm = document.getElementById("send-form");
+  const recipientPhoneNumberInput = document.getElementById("phone-number");
+  const amountInput = document.getElementById("amount");
+  const messageInput = document.getElementById("message"); // Campo para el mensaje
+  const currentPhoneNumber = localStorage.getItem("currentPhoneNumber");
+  const user = account.getUser(currentPhoneNumber);
 
-    if (!user) {
-      alert("Por favor, inicia sesión.");
-      window.location.href = "login.html";
+  if (!user) {
+    alert("Por favor, inicia sesión.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Validar que el número de celular inicie con "3" y tenga máximo 10 dígitos
+  recipientPhoneNumberInput.addEventListener("input", (e) => {
+    // Eliminar cualquier carácter no numérico
+    let value = recipientPhoneNumberInput.value.replace(/[^0-9]/g, "");
+    
+    // Limitar a 10 dígitos
+    if (value.length > 10) {
+      value = value.slice(0, 10);
+    }
+    
+    // Validar que inicie por "3"
+    if (value && value[0] !== "3") {
+      alert("El número de celular debe iniciar con '3'.");
+      value = ""; // Limpiar el campo si no cumple
+    }
+    
+    recipientPhoneNumberInput.value = value;
+  });
+
+  // Formatear el campo "¿Cuánto?" como pesos colombianos
+  amountInput.addEventListener("input", (e) => {
+    // Eliminar cualquier carácter no numérico
+    let value = amountInput.value.replace(/\D/g, "");
+    
+    // Aplicar formato de pesos colombianos
+    const formatter = new Intl.NumberFormat("es-CO");
+    amountInput.value = formatter.format(value);
+  });
+
+  sendForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+  
+    const recipientPhoneNumber = recipientPhoneNumberInput.value.trim();
+    const rawAmount = amountInput.value.replace(/\D/g, ""); // Eliminar formato para procesar
+    const amount = parseInt(rawAmount, 10);
+    const message = messageInput.value.trim(); // Captura el mensaje
+  
+    const messageContainer = document.getElementById("message-container");
+  
+    // Función para mostrar mensajes
+    const showMessage = (text, type) => {
+      messageContainer.textContent = text;
+      messageContainer.className = `message-container ${type}`;
+      messageContainer.style.display = "block";
+    };
+  
+    // Validaciones
+    if (!recipientPhoneNumber || recipientPhoneNumber.length !== 10) {
+      showMessage("Por favor, ingresa un número de celular válido (10 dígitos y debe iniciar con '3').", "error");
       return;
     }
-
-    sendForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const recipientPhoneNumber = recipientPhoneNumberInput.value.trim();
-      const rawAmount = amountInput.value.replace(/\D/g, "");
-      const amount = parseInt(rawAmount, 10);
-      const message = messageInput.value.trim(); // Captura el mensaje
-
-      if (!recipientPhoneNumber || !account.userExists(recipientPhoneNumber)) {
-        alert("El número ingresado no pertenece a ningún usuario registrado.");
-        return;
-      }
-
-      if (isNaN(amount) || amount <= 0) {
-        alert("Por favor, ingresa un monto válido.");
-        return;
-      }
-
-      if (user.amount < amount) {
-        alert("No tienes suficiente saldo para enviar esta cantidad.");
-        return;
-      }
-
-      const recipient = account.getUser(recipientPhoneNumber);
-      user.amount -= amount;
-      recipient.amount += amount;
-
-      account.saveUser(user);
-      account.saveUser(recipient);
-
-      // Guardar la transacción para el remitente
-      saveTransaction(currentPhoneNumber, {
-        title: "Envío realizado",
-        amount: `-$ ${amount.toLocaleString("es-CO")}`,
-        phone: recipientPhoneNumber,
-        description: message || "Sin mensaje", // Guardar el mensaje o un valor por defecto
-        date: new Date().toLocaleString("es-CO"),
-      });
-
-      // Guardar la transacción para el destinatario
-      saveTransaction(recipientPhoneNumber, {
-        title: "Dinero recibido",
-        amount: `+$ ${amount.toLocaleString("es-CO")}`,
-        phone: currentPhoneNumber,
-        description: "Recepción de dinero",
-        date: new Date().toLocaleString("es-CO"),
-      });
-
-      alert(
-        `Has enviado $${amount.toLocaleString(
-          "es-CO"
-        )} a ${recipientPhoneNumber}.`
-      );
-      window.location.href = "home.html";
+  
+    if (recipientPhoneNumber === currentPhoneNumber) {
+      showMessage("No puedes enviar dinero a tu propio número.", "error");
+      return;
+    }
+  
+    if (!account.userExists(recipientPhoneNumber)) {
+      showMessage("El número ingresado no pertenece a ningún usuario registrado.", "error");
+      return;
+    }
+  
+    if (isNaN(amount) || amount <= 0) {
+      showMessage("Por favor, ingresa un monto válido.", "error");
+      return;
+    }
+  
+    if (user.amount < amount) {
+      showMessage("Saldo insuficiente. No puedes realizar esta transferencia.", "error");
+      return;
+    }
+  
+    // Procesar la transferencia
+    const recipient = account.getUser(recipientPhoneNumber);
+    user.amount -= amount;
+    recipient.amount += amount;
+  
+    account.saveUser(user);
+    account.saveUser(recipient);
+  
+    // Guardar la transacción para el remitente
+    saveTransaction(currentPhoneNumber, {
+      title: "Envío realizado",
+      amount: `-$ ${amount.toLocaleString("es-CO")}`,
+      phone: recipientPhoneNumber,
+      description: message || "Sin mensaje", // Guardar el mensaje o un valor por defecto
+      date: new Date().toLocaleString("es-CO"),
     });
-  }
+  
+    // Guardar la transacción para el destinatario
+    saveTransaction(recipientPhoneNumber, {
+      title: "Dinero recibido",
+      amount: `+$ ${amount.toLocaleString("es-CO")}`,
+      phone: currentPhoneNumber,
+      description: "Recepción de dinero",
+      date: new Date().toLocaleString("es-CO"),
+    });
+  
+    // Mostrar mensaje de éxito
+    showMessage(`Transferencia exitosa. Has enviado $${amount.toLocaleString("es-CO")} a ${recipientPhoneNumber}.`, "success");
+  
+    // Redirigir después de un breve tiempo
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 2000);
+  });
+  
+}
+
+
 
   //Recargar
   if (window.location.pathname.includes("deposit.html")) {
@@ -816,9 +870,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Mostrar el saldo actualizado
     const balanceElement = document.querySelector(".balance-card .amount");
-    if (balanceElement) {
-      balanceElement.textContent = `$ ${user.amount.toFixed(2)}`;
+    const totalElement = document.querySelector(".balance-card .total");
+
+    if (balanceElement && totalElement) {
+      const formatter = new Intl.NumberFormat("es-CO", {
+        style: "currency",
+        currency: "COP",
+        minimumFractionDigits: 2,
+      });
+    
+      const formattedAmount = formatter.format(user.amount);
+    
+      balanceElement.textContent = formattedAmount; // Actualiza "Disponible"
+      totalElement.textContent = `Total ${formattedAmount}`; // Actualiza "Total"
     }
+    
+    
 
     // ---- Integración del Chatbot ----
     const chatInput = document.querySelector(".chat-input");
