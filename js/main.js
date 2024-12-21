@@ -1,10 +1,12 @@
 import Account from "./account.js";
 import User from "./user.js";
 import Login from "./login.js";
+import IA from "./ia.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const account = new Account();
   const login = new Login();
+  const ia = new IA();
 
   //ACCIONES
 
@@ -327,7 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Eliminar usuario
         account.deleteUser(phoneNumber);
 
-         // Eliminar historial de transacciones
+        // Eliminar historial de transacciones
         const transactionsKey = `${phoneNumber}_transactions`;
         localStorage.removeItem(transactionsKey);
 
@@ -820,92 +822,59 @@ document.addEventListener("DOMContentLoaded", () => {
       balanceElement.textContent = `$ ${user.amount.toFixed(2)}`;
     }
 
-    // ---- Integración del Chatbot ----
-    const chatInput = document.querySelector(".chat-input");
-    const sendChatButton = document.querySelector(".send-btn");
-    const chatInnerBox = document.querySelector(".chat-inner-box");
+    // //--Funciones importantes para la Inteligencia.
 
-    const API_KEY = "AIzaSyBCvWe2r9OkL1Jc6XesDyyGWnVlKFFTuM4";
-    const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    function agregarMensaje(alUsuario, mensaje) {
+      const chatInnerBox = document.querySelector(".chat-inner-box");
 
-    // Función para llamar a la API de Gemini
-    async function llamarGemini(prompt) {
-      try {
-        // Realizamos la solicitud a la API
-        const respuesta = await fetch(URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: prompt }],
-              },
-            ],
-          }),
-        });
+      // Crear el div para el mensaje
+      const divMensaje = document.createElement("div");
+      divMensaje.classList.add(alUsuario ? "user-message" : "bot-message");
 
-        // Verificamos que la respuesta sea exitosa
-        if (!respuesta.ok) {
-          const errorText = await respuesta.text();
-          throw new Error(`Error HTTP: ${respuesta.status}, ${errorText}`);
-        }
+      // Añadir el mensaje al div
+      divMensaje.textContent = mensaje;
 
-        // Parseamos la respuesta JSON
-        const datos = await respuesta.json();
+      // Añadir el mensaje a la ventana del chat
+      chatInnerBox.appendChild(divMensaje);
 
-        // Verificamos la estructura de los datos
-        if (
-          datos &&
-          datos.contents &&
-          Array.isArray(datos.contents) &&
-          datos.contents[0].parts &&
-          Array.isArray(datos.contents[0].parts)
-        ) {
-          const textoGenerado =
-            datos.contents[0].parts[0].text || "Lo siento, no entendí eso.";
-          return textoGenerado;
-        } else {
-          console.error(
-            "Estructura inesperada en la respuesta de la API",
-            datos
-          );
-          return "Hubo un problema al procesar la respuesta de la IA.";
-        }
-      } catch (error) {
-        console.error("Error al llamar a la API de Gemini:", error);
-        return "Hubo un problema al conectar con la IA.";
-      }
-    }
-
-    // Función para agregar el mensaje en el chat
-    function agregarMensaje(texto, clase) {
-      const mensaje = document.createElement("div");
-      mensaje.classList.add("mensaje", clase);
-      mensaje.textContent = texto;
-      chatInnerBox.appendChild(mensaje);
+      // Hacer que el chat se desplace al final cada vez que se agrega un nuevo mensaje
       chatInnerBox.scrollTop = chatInnerBox.scrollHeight;
     }
 
-    // Evento de enviar el mensaje
-    sendChatButton.addEventListener("click", async () => {
-      const mensajeUsuario = chatInput.value.trim();
+    // Manejar el envío del mensaje desde el input
+    const sendButton2 = document.querySelector(".send-btn");
+    const chatInput = document.querySelector(".chat-input");
 
-      if (mensajeUsuario === "") return;
+    sendButton2.addEventListener("click", () => {
+      const inputText = chatInput.value.trim();
 
-      agregarMensaje(mensajeUsuario, "usuario");
-      chatInput.value = "";
+      // Si el campo no está vacío
+      if (inputText !== "") {
+        // Agregar el mensaje del usuario al chat
+        agregarMensaje(true, inputText);
 
-      const respuestaIA = await llamarGemini(mensajeUsuario);
-      agregarMensaje(respuestaIA, "ia");
+        // Limpiar el campo de texto
+        chatInput.value = "";
+
+        // Mostrar mensaje de "Pensando..." mientras se obtiene la respuesta de la IA
+        agregarMensaje(false, "Pensando...");
+
+        // Llamar a la clase IA para obtener la respuesta
+        ia.llamarGemini(inputText).then((respuesta) => {
+          // Reemplazar el mensaje de "Pensando..." por la respuesta de la IA
+          const lastBotMessage = document.querySelector(".bot-message");
+          lastBotMessage.textContent = respuesta;
+
+          // Agregar el mensaje de la IA
+          agregarMensaje(false, respuesta);
+        });
+      }
     });
 
-    // Soporte para enviar con la tecla Enter
-    chatInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendChatButton.click();
+    // Si presionan "Enter" también se debe enviar el mensaje
+    chatInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendButton.click();
       }
     });
   }

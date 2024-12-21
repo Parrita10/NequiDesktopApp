@@ -9,7 +9,7 @@
 body {
   background-color: #ede7f6;
   background-image: url("../images/fondo_home.png");
-  background-repeat: no-repeat; /* Evita que el fondo se repita */
+  background-repeat: no-repeat;
   background-size: cover;
   color: #1f1b2d;
 }
@@ -153,40 +153,16 @@ main {
   left: 15rem;
 }
 
-/* Estilo de mensajes del chat */
-.mensaje {
-  max-width: 80%;
-  margin: 10px;
-  padding: 10px 15px;
-  border-radius: 15px;
-  font-size: 17px;
-  word-wrap: break-word;
-}
-
-.usuario {
-  background-color: #4c1c58;
-  color: white;
-  align-self: flex-end;
-}
-
-.ia {
-  background-color: #f5f5f5;
-  color: black;
-  align-self: flex-start;
-  border: 1px solid #ddd;
-}
-
 /* Estilos específicos de la IA */
 .chat-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: calc(100% - 50px); /* Deja espacio para la barra y el botón */
-  padding-bottom: 50px; /* Espacio para la barra de entrada */
-  overflow: hidden; 
+  height: calc(100% - 50px);
+  padding-bottom: 50px;
+  overflow: hidden;
 }
 
-/* Logo de la IA, centrado y sin moverse */
 .logoIA {
   width: 50%;
   align-items: center;
@@ -203,8 +179,8 @@ main {
   width: 100%;
   box-sizing: border-box;
   position: relative;
-  overflow-y: auto; /* Dejamos el scroll solo aquí */
-  margin-bottom: -3.1rem; 
+  overflow-y: auto;
+  margin-bottom: -3.1rem;
 }
 
 /* Barra de entrada y botón fijos en la parte inferior */
@@ -246,4 +222,28 @@ main {
   border-radius: 50%;
   cursor: pointer;
   font-size: 20px;
+}
+
+.user-message {
+  background-color: #4c1c58;
+  color: white;
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  font-size: 17px;
+  word-wrap: break-word;
+  align-self: flex-end;
+}
+
+.bot-message {
+  background-color: #f5f5f5;
+  color: black;
+  border-radius: 15px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  max-width: 80%;
+  font-size: 17px;
+  word-wrap: break-word;
+  align-self: flex-start;
 }
