@@ -324,11 +324,22 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.appendChild(modalContainer);
 
       confirmButton.addEventListener("click", () => {
+        // Eliminar usuario
         account.deleteUser(phoneNumber);
+
+         // Eliminar historial de transacciones
+        const transactionsKey = `${phoneNumber}_transactions`;
+        localStorage.removeItem(transactionsKey);
+
+        // Limpiar datos del usuario actual
         localStorage.removeItem("currentPhoneNumber");
+
+        // Mostrar mensaje de confirmación
         saveMessage.textContent = "Tu cuenta ha sido bloqueada exitosamente.";
         saveMessage.style.display = "block";
         document.body.removeChild(modalContainer);
+
+        // Redirigir al inicio
         setTimeout(() => {
           window.location.href = "../index.html"; //CAMBIAR
         }, 2000);
