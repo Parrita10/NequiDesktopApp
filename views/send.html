@@ -14,7 +14,6 @@
           <img src="../images/logo.png" alt="Logo Nequi" class="logo" />
         </div>
         <div class="header-right">
-          <button class="block-btn">Bloquear Nequi</button>
           <button class="back-btn" onclick="location.href = 'home.html'">
             Volver
           </button>
@@ -24,33 +23,30 @@
       <!-- Contenido principal -->
       <main>
         <div class="send-card">
+          <div id="message-container" class="message-container"></div>
           <h2>Envía plata</h2>
           <form id="send-form">
             <label for="phone-number">
               <span class="highlight">Cel</span>
-              <input
-                type="text"
-                id="phone-number"
-                placeholder="Número de cel"
-                required
-              />
+              <input type="text" id="phone-number" placeholder="Número de cel" required />
             </label>
             <p>Revisa bien el número para enviarle a la persona correcta</p>
-
+      
             <label for="amount">
               <input type="text" id="amount" placeholder="¿Cuánto?" required />
             </label>
-
+      
             <label for="message">
               <textarea id="message" placeholder="Mensaje" rows="2"></textarea>
             </label>
-
+      
             <p class="available">Disponible ...</p>
-
+      
             <button type="submit" class="send-btn">Enviar</button>
           </form>
         </div>
       </main>
+      
     </div>
     <script type="module" src="../js/main.js"></script>
   </body>
