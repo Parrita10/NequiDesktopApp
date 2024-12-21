@@ -23,7 +23,9 @@
       <!-- Contenido principal -->
       <main>
         <div class="deposit-card">
+          <div id="message-container" class="message-container"></div>
           <h2>Recargar dinero</h2>
+          <p id="current-phone" class="highlight"></p> <!-- Número de cuenta activa -->
           <form id="deposit-form">
             <label for="phone-number">
               <span class="highlight">Cel</span>
@@ -39,7 +41,6 @@
             <label for="amount">
               <input type="text" id="amount" placeholder="¿Cuánto?" required />
             </label>
-
             <button type="submit" class="deposit-btn">Recargar</button>
           </form>
         </div>

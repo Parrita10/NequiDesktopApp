@@ -11,27 +11,40 @@
       <img src="../images/logo.png" alt="Banco Logo" class="logo" />
     </header>
 
-    <!--2.2 Código Número Teléfonico -->
+    <!-- Vista para ingresar el código -->
     <section id="code-view" class="view">
       <div class="card">
         <h2>Escribe el código</h2>
         <p>Te lo enviamos en un mensaje de texto al número ingresado...</p>
+
+        <!-- Contenedor de mensajes -->
+        <div id="message-container" class="message-container">
+          <div id="error-message" class="message error-message" style="display: none;"></div>
+          <div id="success-message" class="message success-message" style="display: none;"></div>
+        </div>
+
+        <!-- Inputs para el código -->
         <div class="code-input">
           <input type="text" maxlength="1" />
           <input type="text" maxlength="1" />
           <input type="text" maxlength="1" />
           <input type="text" maxlength="1" />
         </div>
+
         <p class="info">
           ¿No te llegó?
           <button id="send-email" class="link">
             ¡Te enviamos un correo!
           </button>
         </p>
+
+        <!-- Formulario para el correo -->
         <div id="email-input" class="hidden">
           <input type="email" id="email" placeholder="Escribe tu correo" />
           <button id="submit-email">Enviar</button>
         </div>
+
+        <!-- Teclado numérico -->
         <div class="numeric-keypad">
           <button class="key">1</button>
           <button class="key">2</button>
@@ -45,10 +58,13 @@
           <button class="key">0</button>
           <button class="key delete">&#8592;</button>
         </div>
+
+        <!-- Botón de verificación -->
         <button id="verify-code">Aceptar</button>
       </div>
     </section>
 
+    <!-- Scripts -->
     <script type="module" src="../js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
@@ -65,12 +81,14 @@
       const submitEmailButton = document.getElementById("submit-email");
       const emailInput = document.getElementById("email");
       const codeInputs = document.querySelectorAll(".code-input input");
+      const errorMessage = document.getElementById("error-message");
+      const successMessage = document.getElementById("success-message");
 
       sendEmailButton.addEventListener("click", () => {
         emailInputSection.classList.remove("hidden");
       });
 
-      // Enviar el código al correo del usuario
+      // Enviar el código al correo
       submitEmailButton.addEventListener("click", (event) => {
         event.preventDefault();
 
@@ -81,34 +99,39 @@
         const userEmail = emailInput.value;
 
         if (!userEmail) {
-          alert("Por favor ingresa un correo electrónico válido.");
+          successMessage.style.display = "none";
+          errorMessage.textContent = "Por favor ingresa un correo electrónico válido.";
+          errorMessage.style.display = "block";
           return;
         }
 
-        // CONFIGURACIÓN DE LA API
+        // Configuración de EmailJS
         const serviceID = "default_service";
         const templateID = "template_36tkbkb";
 
         const templateParams = {
-          //Paramentros :D
           verification_code: verificationCode,
           email_adress: userEmail,
         };
 
         emailjs.send(serviceID, templateID, templateParams).then(
           () => {
-            alert("Correo enviado con éxito!");
+            errorMessage.style.display = "none";
+            successMessage.textContent = "Correo enviado con éxito.";
+            successMessage.style.display = "block";
             emailInputSection.classList.add("hidden");
-            emailInput.value = ""; // Limpiar el campo de correo
+            emailInput.value = "";
           },
           (err) => {
-            alert("Hubo un error al enviar el correo. Inténtalo de nuevo.");
+            successMessage.style.display = "none";
+            errorMessage.textContent = "Hubo un error al enviar el correo. Inténtalo de nuevo.";
+            errorMessage.style.display = "block";
             console.error("Error: ", err);
           }
         );
       });
 
-      // Lógica para manejar la entrada de código
+      // Validar la entrada del código
       const numericKeys = document.querySelectorAll(".numeric-keypad .key");
       let currentInputIndex = 0;
 
@@ -137,10 +160,16 @@
           .join("");
 
         if (enteredCode === String(verificationCode)) {
-          alert("Código correcto. Redirigiendo...");
-          window.location.href = "./account_options.html";
+          errorMessage.style.display = "none";
+          successMessage.textContent = "Código correcto. Redirigiendo...";
+          successMessage.style.display = "block";
+          setTimeout(() => {
+            window.location.href = "./account_options.html";
+          }, 2000);
         } else {
-          alert("El código ingresado es incorrecto.");
+          successMessage.style.display = "none";
+          errorMessage.textContent = "El código ingresado es incorrecto.";
+          errorMessage.style.display = "block";
         }
       });
     </script>

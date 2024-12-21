@@ -247,3 +247,28 @@ main {
   word-wrap: break-word;
   align-self: flex-start;
 }
+
+.exit-btn {
+  background-color: #ff007a; /* Color de fondo */
+  color: white; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de la fuente */
+  font-weight: bold; /* Texto en negrita */
+  border: none; /* Sin bordes */
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer; /* Icono de clic */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+/* Efecto hover (cuando pasas el cursor) */
+.exit-btn:hover {
+  background-color: #e6006a; /* Color más oscuro al pasar el cursor */
+  transform: translateY(-2px); /* Levanta el botón ligeramente */
+}
+
+/* Efecto active (cuando haces clic) */
+.exit-btn:active {
+  background-color: #cc005c; /* Color más oscuro al hacer clic */
+  transform: translateY(2px); /* Baja el botón ligeramente */
+}
